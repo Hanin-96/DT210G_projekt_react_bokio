@@ -1,0 +1,51 @@
+.registerForm {
+    max-width: 40rem;
+    width: 100%;
+    margin: 2rem auto;
+}
+.registerForm h1 {
+    text-align: center;
+}
+.registerIcon {
+    text-align: center;
+    background-color: #F8F5F2;
+    max-height: 15rem;
+    height: 100%;
+    max-width: 15rem;
+    width: 100%;
+    margin: 2rem auto;
+    border-radius: 100%;
+    padding: 2rem;
+    box-shadow: 0 2px 5px -1px rgb(30, 30, 30, 0.5);
+}
+.registerIcon svg {
+    width: 100%;
+    max-height: 15rem;
+    height: 100%;
+    display: block;
+    color: #1e1e1e;
+}
+
+.registerForm input {
+    display: block;
+    max-width: 40rem;
+    padding: 0.3rem;
+    width: 100%;
+    margin-bottom: 2rem;
+    margin-top: 0.5rem;
+    border: none;
+    border-radius: 0.5rem;
+}
+.registerForm button {
+    width: 100%;
+    padding: 1rem;
+    cursor: pointer;
+    background-color: #FF882D;
+    border: none;
+    border-radius: 1rem;
+}
+
+.registerForm button:hover {
+    background-color: #F8F5F2;
+    color: #1e1e1e;
+}

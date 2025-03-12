@@ -1,0 +1,40 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  html {
+    font-size: 62.5%;
+  }
+  /*global styling*/
+  body {
+    height: 100%;
+    width: 100%;
+    max-width: 1920px;
+    overflow-x: hidden;
+    font-family: "Montserrat", serif;
+    background-color: #1e1e1e;
+    color: white;
+    margin: 0;
+  }
+  
+  main {
+    width: 100%;
+    margin: 0 auto;
+    position: relative;
+  }
+  
+  p, a, label {
+    font-size: 1.6rem;
+  }
+  
+  button {
+    font-size: 1.8rem;
+    box-shadow: 0 2px 5px -1px rgb(30, 30, 30, 0.3);
+  
+  }
+  
+  h1 {
+    font-size: 3.2rem;
+  }
