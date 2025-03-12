@@ -2,12 +2,13 @@
 
 function Footer() {
     const footerStyle: object = {
-      backgroundColor: "#C6C6C6",
+      backgroundColor: "#1e1e1e",
+      borderTop: "2px solid white",
       padding: "1rem",
       lineHeight: "180%",
-      fontSize: "1.5rem",
+      fontSize: "1.4rem",
       textAlign: "center",
-      color: "#1e1e1e"
+      color: "white"
   
     }
     return (

@@ -55,6 +55,10 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
                 const loginData = await response.json() as AuthResponse;
                 console.log("LoginData från servern:", loginData);
 
+                console.log("LoginData user:", loginData.user);
+
+                console.log("LoginData user:", loginData.token);
+
                 //Sätta user state
                 setUser(loginData.user);
 
@@ -83,7 +87,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
             } else {
                 //Sätta user state
                 setUser(null);
-
             }
 
 

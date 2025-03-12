@@ -1,4 +1,4 @@
-import { ChevronRight, UserRoundPlus } from "lucide-react"
+import { ChevronLeft, UserRoundPlus } from "lucide-react"
 import { useState } from "react"
 import RegisterStyle from "./RegisterStyle.module.css";
 
@@ -117,7 +117,7 @@ function RegisterPage() {
           msgRegister && <p>{msgRegister}</p>
         }
         <div>
-          <NavLink to="/login" style={{color: "white", display: "flex", marginTop: "1rem", marginBottom: "10rem", justifyContent: "flex-end", alignItems: "center"}}>Inloggning <ChevronRight /></NavLink>
+          <NavLink to="/login" style={{color: "white", display: "flex", marginTop: "1rem", marginBottom: "10rem", justifyContent: "flex-start", alignItems: "center", fontSize: "1.5rem"}}><ChevronLeft />Inloggning</NavLink>
         </div>
       </div>
 

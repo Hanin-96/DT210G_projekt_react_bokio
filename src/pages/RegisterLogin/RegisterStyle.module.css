@@ -1,11 +1,16 @@
 .registerForm {
     max-width: 40rem;
     width: 100%;
-    margin: 2rem auto;
+    margin: 0 auto;
 }
 .registerForm h1 {
     text-align: center;
 }
+
+.registerForm label {
+    font-size: 1.6rem;
+}
+
 .registerIcon {
     text-align: center;
     background-color: #F8F5F2;
@@ -13,7 +18,7 @@
     height: 100%;
     max-width: 15rem;
     width: 100%;
-    margin: 2rem auto;
+    margin: 2rem auto 0 auto;
     border-radius: 100%;
     padding: 2rem;
     box-shadow: 0 2px 5px -1px rgb(30, 30, 30, 0.5);
@@ -29,7 +34,7 @@
 .registerForm input {
     display: block;
     max-width: 40rem;
-    padding: 0.3rem;
+    padding: 0.5rem;
     width: 100%;
     margin-bottom: 2rem;
     margin-top: 0.5rem;

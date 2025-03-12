@@ -29,6 +29,10 @@ export interface AuthResponse {
     token: string
 }
 
+export interface ProtectedRouteResponse {
+    user: User
+}
+
 export interface AuthContextType {
     user: User | null,
     login: (credentials: LoginCredentials) => Promise<void>;

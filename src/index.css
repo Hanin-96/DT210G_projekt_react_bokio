@@ -2,13 +2,14 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-  }
-  
-  html {
+}
+
+html {
     font-size: 62.5%;
-  }
-  /*global styling*/
-  body {
+}
+
+/*global styling*/
+body {
     height: 100%;
     width: 100%;
     max-width: 1920px;
@@ -17,24 +18,24 @@
     background-color: #1e1e1e;
     color: white;
     margin: 0;
-  }
-  
-  main {
+}
+
+main {
     width: 100%;
-    margin: 0 auto;
+    margin: 10rem auto;
     position: relative;
-  }
-  
-  p, a, label {
+}
+
+a {
     font-size: 1.6rem;
-  }
-  
-  button {
+}
+
+button {
     font-size: 1.8rem;
     box-shadow: 0 2px 5px -1px rgb(30, 30, 30, 0.3);
-  
-  }
-  
-  h1 {
+
+}
+
+h1 {
     font-size: 3.2rem;
-  }
+}
