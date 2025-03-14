@@ -26,7 +26,9 @@ function Header() {
 
                     <nav className={`${HeaderStyle.navMain} ${showMenu ? HeaderStyle.navMobil : ""}`}>
                         <ul>
-                            <li><NavLink to="/" onClick={toggleMenuBar} className={({ isActive }) => isActive ? HeaderStyle.active : ""}>Startsida</NavLink></li>
+                            <li><NavLink to="/" onClick={toggleMenuBar} className={({ isActive }) => isActive ? HeaderStyle.active : ""}>Böcker</NavLink></li>
+
+                            <li><NavLink to="/reviews" onClick={toggleMenuBar} className={({ isActive }) => isActive ? HeaderStyle.active : ""}>Recensioner</NavLink></li>
                             {user &&
                                 <li>
                                     <NavLink to="/mypage" onClick={toggleMenuBar} className={({ isActive }) => isActive ? HeaderStyle.active : ""}>Min sida</NavLink>

@@ -1,0 +1,11 @@
+.btnSearch {
+    background: white;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem 0.8rem;
+    border-radius: 100%;
+}
+
+.btnSearch:hover {
+    background-color: #FF882D;
+}
