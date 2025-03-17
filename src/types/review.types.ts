@@ -22,6 +22,8 @@ export interface Book {
 export interface ReviewContextType {
     reviews: Review[] | null,
     books: Book[] | null,
+    bookTitles: string[] | null,
     getReviews: () => void,
-    getBooks: (search:string) => void
+    getBooks: (search: string) => void,
+    getReviewsById: (_id: string) => void
 }

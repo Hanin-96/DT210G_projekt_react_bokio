@@ -7,6 +7,7 @@ import LoginPage from "./pages/RegisterLogin/LoginPage";
 import MyPage from "./pages/MyPage";
 import ProtectedRoute from "./context/ProtectedRoute";
 import { ReviewProvider } from "./context/ReviewContext";
+import BookPage from "./pages/BookPage";
 
 
 const router = createBrowserRouter([
@@ -25,6 +26,14 @@ const router = createBrowserRouter([
                 element:
                     (
                         <HomePage />
+                    ),
+            },
+
+            {
+                path: "/book/:bookId",
+                element:
+                    (
+                        <BookPage />
                     ),
             },
             {

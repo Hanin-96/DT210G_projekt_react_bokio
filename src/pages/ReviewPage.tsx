@@ -34,7 +34,6 @@ function ReviewPage() {
             reviews.map((review: Review) => (
               <article key={review._id} style={{ maxWidth: "40rem", width: "100%", marginBottom: "2rem", backgroundColor: "#F8F5F2", color: "#1e1e1e", padding: "1rem", borderRadius: "1rem", fontSize: "1.6rem", boxShadow: "5px 5px 0px 0px #FF882D" }}>
                 <p>{review.bookId}</p>
-                <p>{review.bookId}</p>
                 <p>{review.reviewText}</p>
                 <p>Lässtatus:<span style={{ display: "block" }}>{review.status}</span></p>
                 <p>{review.pagesRead}</p>
