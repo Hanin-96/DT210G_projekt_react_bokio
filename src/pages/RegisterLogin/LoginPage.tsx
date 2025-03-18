@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useAuth } from "../../context/AuthContext";
 import RegisterStyle from "./RegisterStyle.module.css";
 import { ChevronRight, UserRound } from "lucide-react";
-import { NavLink, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function LoginPage() {
   const { login, user } = useAuth();
@@ -84,7 +84,7 @@ function LoginPage() {
         </form>
 
         <div>
-          <NavLink to="/register" style={{ color: "white", display: "flex", marginTop: "1rem", marginBottom: "10rem", justifyContent: "flex-end", alignItems: "center", fontSize: "1.5rem" }}>Inget användarkonto? Registrera<ChevronRight /></NavLink>
+          <Link to="/register" style={{ color: "white", display: "flex", marginTop: "1rem", marginBottom: "10rem", justifyContent: "flex-end", alignItems: "center", fontSize: "1.5rem" }}>Inget användarkonto? Registrera<ChevronRight /></Link>
         </div>
       </div>
     </>

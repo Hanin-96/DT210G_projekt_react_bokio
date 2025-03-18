@@ -19,7 +19,7 @@ function HomePage() {
     justifyContent: "flex-start",
     maxWidth: "100rem",
     width: "100%",
-    gap: "2rem",
+    gap: "6rem",
     flexWrap: "wrap",
     margin: "0 auto"
   }
@@ -30,8 +30,8 @@ function HomePage() {
     flexDirection: "column",
     maxHeight: "50rem",
     height: "100%",
-    color: "white", 
-    textDecoration: "none" 
+    color: "white",
+    textDecoration: "none"
   }
 
   return (
@@ -53,10 +53,10 @@ function HomePage() {
       <div style={bookArticle}>
         {
           books && books.length > 0 ? (
-            books.map((book: Book, index) => (
-              <article style={{ maxWidth: "15rem", width: "100%" }}>
-                <Link to={`/book/${book.id}`} style={bookLinks} key={book.id || `${book.title}-${index}`}>
-                  <h3 style={{ wordWrap: "break-word", overflowWrap: "break-word", whiteSpace: "normal" }}>{book.title}</h3>
+            books.map((book: Book) => (
+              <article style={{ maxWidth: "15rem", width: "100%" }} key={book.id}>
+                <Link to={`/book/${book.id}`} style={bookLinks}>
+                  <h4 style={{ wordWrap: "break-word", overflowWrap: "break-word", whiteSpace: "normal" }}>{book.title}</h4>
                   <p>{book.authors}</p>
                   <img src={book.thumbnail === "" ? bookImg : book.thumbnail} alt={book.title} style={{ maxWidth: "15rem", width: "100%", height: "100%", display: "block", maxHeight: "20rem", objectFit: "cover" }} />
                 </Link>

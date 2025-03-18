@@ -3,6 +3,7 @@ import { useAuth } from "../context/AuthContext";
 import { useReview } from "../context/ReviewContext";
 import { Review } from "../types/review.types";
 import { Heart, ThumbsDown, ThumbsUp } from "lucide-react";
+import MyPageStyle from "../pages/MypageStyle.module.css";
 
 
 function MyPage() {
@@ -63,8 +64,8 @@ function MyPage() {
                     {
                         reviews && reviews?.length > 0 ? (
                             reviews.map((review: Review, index: number) => (
-                                <article key={review._id} style={{ maxWidth: "30rem", width: "100%", ...articleStyle}}>
-                                    <h3>{bookTitles ? bookTitles[index] || "Titel finns inte" : "Titel finns inte"}</h3>
+                                <article key={review._id} style={{ maxWidth: "30rem", width: "100%", opacity: loading ? 0 : 1, ...articleStyle}} className={MyPageStyle.articleReviews}>
+                                    <h4>{bookTitles ? bookTitles[index] || "Titel finns inte" : "Titel finns inte"}</h4>
                                     <p>{review.reviewText}</p>
                                     <p>Lästa sidor: {review.pagesRead}</p>
                                     <p>Betyg: {review.rating}</p>

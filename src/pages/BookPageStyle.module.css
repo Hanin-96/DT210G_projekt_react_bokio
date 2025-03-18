@@ -1,0 +1,25 @@
+.reviewArticle {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+}
+
+.reviewArticle article:nth-child(2n) {
+    margin-left: 20rem;
+}
+
+.btnReview {
+    width: 100%;
+    padding: 1rem;
+    cursor: pointer;
+    background-color: #FF882D;
+    border: none;
+    border-radius: 1rem;
+    margin-bottom: 2rem;
+    border: none;
+}
+
+.btnReview:hover {
+    background-color: #F8F5F2;
+    color: #1e1e1e;
+}

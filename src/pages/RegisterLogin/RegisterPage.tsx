@@ -4,7 +4,7 @@ import RegisterStyle from "./RegisterStyle.module.css";
 
 //Context api för Auth
 import { useAuth } from "../../context/AuthContext";
-import { NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 function RegisterPage() {
 
@@ -117,7 +117,7 @@ function RegisterPage() {
           msgRegister && <p>{msgRegister}</p>
         }
         <div>
-          <NavLink to="/login" style={{color: "white", display: "flex", marginTop: "1rem", marginBottom: "10rem", justifyContent: "flex-start", alignItems: "center", fontSize: "1.5rem"}}><ChevronLeft />Inloggning</NavLink>
+          <Link to="/login" style={{color: "white", display: "flex", marginTop: "1rem", marginBottom: "10rem", justifyContent: "flex-start", alignItems: "center", fontSize: "1.5rem"}}><ChevronLeft />Inloggning</Link>
         </div>
       </div>
 
