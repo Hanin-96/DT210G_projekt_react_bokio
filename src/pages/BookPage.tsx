@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom"
 import { useReview } from "../context/ReviewContext";
-import { Review } from "../types/review.types";
-import { Heart, SquarePen, ThumbsDown, ThumbsUp } from "lucide-react";
+import { PostReview, Review } from "../types/review.types";
+import { Heart, SquarePen, Star, ThumbsDown, ThumbsUp } from "lucide-react";
 import bookImg from "../assets/bookImg.png";
 import BookPageStyle from "../pages/BookPageStyle.module.css";
 import { useAuth } from "../context/AuthContext";
+import PostModal from "../components/Modal/PostModal";
 
 
 function BookPage() {
@@ -14,9 +15,10 @@ function BookPage() {
   const [loadingBook, setLoadingBook] = useState(true);
   const [loadingReviews, setLoadingReviews] = useState(true);
   const [isLoaded, setIsLoaded] = useState(false);
+  const [showModal, setShowModal] = useState(false);
 
   //Context
-  const { reviews, oneBook, getReviewsByBook, getBookById } = useReview();
+  const { reviews, oneBook, getReviewsByBook, getBookById, postReview } = useReview();
   const { user } = useAuth();
 
   //Hämtar bookId från url
@@ -79,17 +81,24 @@ function BookPage() {
         }
 
         <div>
-
           {
             user ?
               <div>
-                <button type="button" style={{ display: "flex", alignItems: "center", justifyContent: "center" }} className={BookPageStyle.btnReview}>Skriv recension <SquarePen style={{ marginLeft: "0.5rem" }} /></button>
+                <button type="button" style={{ display: "flex", alignItems: "center", justifyContent: "center" }} className={BookPageStyle.btnReview} onClick={() => setShowModal(true)}>Skriv recension <SquarePen style={{ marginLeft: "0.5rem" }} /></button>
+                {showModal && <PostModal onCloseProp={async (newReview: PostReview) => {
+                  if (newReview && user?._id) {
+                    console.log("newReview:", newReview);
+                    await postReview(newReview);
+                  }
+                  setShowModal(false);
+                }} />}
               </div>
               :
               <Link to="/login" style={{ textDecoration: "none" }}>
                 <button type="button" style={{ display: "flex", alignItems: "center", justifyContent: "center" }} className={BookPageStyle.btnReview}>Skriv recension <SquarePen style={{ marginLeft: "0.5rem" }} /></button>
               </Link>
           }
+
 
           {
             loadingReviews && <p style={{ color: "white", maxWidth: "60rem", width: "100%", margin: "2rem auto 2rem auto" }}>Laddar in recensioner...</p>
@@ -104,7 +113,11 @@ function BookPage() {
                       <h4>{review.userId.username}</h4>
                       <p>{review.reviewText}</p>
                       <p>Lästa sidor: {review.pagesRead}</p>
-                      <p>Betyg: {review.rating}</p>
+                      <div style={{ marginTop: "10px", display: "flex", gap: "5px" }}>
+                        {[1, 2, 3, 4, 5].map((starValue) => (
+                          <Star key={starValue} fill={review.rating >= starValue ? "#FF882D" : "none"} stroke="#1e1e1e" />
+                        ))}
+                      </div>
                       <p>Rekommendation: {review.recommend ? <ThumbsUp /> : <ThumbsDown />}</p>
                       <p>Likes: {review.like} <Heart /></p>
                     </article>

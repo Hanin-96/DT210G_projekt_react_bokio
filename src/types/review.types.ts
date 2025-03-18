@@ -1,13 +1,25 @@
+import { User } from "./auth.types";
 export interface Review {
     _id: string,
     reviewText: string,
     rating: number,
     pagesRead: number,
     status: string,
-    like: number,
     recommend: boolean,
+    like: number,
     userId: { _id: string; firstname: string; lastname: string; username: string },
     bookId: string
+}
+
+export interface PostReview {
+    reviewText: string,
+    rating: number,
+    pagesRead: number | null,
+    status: string,
+    recommend: boolean,
+    userId: User["_id"],
+    bookId: Book["id"]
+
 }
 
 export interface Book {
@@ -35,5 +47,6 @@ export interface ReviewContextType {
     getBooks: (search: string) => void,
     getReviewsById: (_id: string) => void,
     getReviewsByBook: (bookId: string) => void,
-    getBookById: (bookId: string) => void
+    getBookById: (bookId: string) => void,
+    postReview: (newReview: PostReview) => void
 }

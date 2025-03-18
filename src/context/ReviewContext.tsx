@@ -1,5 +1,5 @@
 import { createContext, useState, useContext, ReactNode } from "react";
-import { Book, OneBook, Review } from "../types/review.types";
+import { Book, OneBook, PostReview, Review } from "../types/review.types";
 import { ReviewContextType } from "../types/review.types";
 
 
@@ -98,7 +98,7 @@ export const ReviewProvider: React.FC<ImagesProviderProps> = ({ children }) => {
 
     //Hämta reviews utifrån userId
     const getReviewsById = async (userId: string): Promise<void> => {
-   
+
         try {
             const response = await fetch(`http://localhost:3000/reviews/${userId}`, {
                 method: "GET",
@@ -190,11 +190,35 @@ export const ReviewProvider: React.FC<ImagesProviderProps> = ({ children }) => {
             console.error("Det gick inte att hämta recensioner", error);
             setReviews([]);
         }
+    }
+
+    const postReview = async (newReview: PostReview): Promise<void> => {
+        try {
+            const response = await fetch("http://localhost:3000/review", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(newReview),
+                credentials: "include"
+            })
+
+            if(response.ok) {
+                console.log("response:", response);
+                await getReviewsByBook(newReview.bookId);
+            }
+                
+
+
+        } catch (error) {
+            console.error("Det gick inte att skapa en recension:", error);
+
+        }
 
     }
 
     return (
-        <ReviewContext.Provider value={{ reviews, bookTitles, books, oneBook, getReviews, getBooks, getReviewsById, getReviewsByBook, getBookById}}>
+        <ReviewContext.Provider value={{ reviews, bookTitles, books, oneBook, getReviews, getBooks, getReviewsById, getReviewsByBook, getBookById, postReview }}>
             {children}
         </ReviewContext.Provider>
     )

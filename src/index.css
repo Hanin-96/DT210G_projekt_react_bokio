@@ -37,6 +37,10 @@ button {
 
 }
 
+label, input {
+    font-size: 1.6rem;
+}
+
 h1 {
     font-size: 3.6rem;
 }
