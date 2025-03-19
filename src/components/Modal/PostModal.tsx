@@ -113,9 +113,6 @@ function PostModal({ onCloseProp }: { onCloseProp: (newReview: PostReview) => vo
                             <button type="submit">Lägg till</button>
                         </div>
                     </form>
-
-
-                    
                         {loadingSpinner && <div className={ModalStyle.loadingSpinner}></div>}
                     
                 </div >

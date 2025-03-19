@@ -1,18 +1,24 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useReview } from "../context/ReviewContext";
 import { Search } from "lucide-react";
 import HomeStyle from "../pages/HomeStyle.module.css";
+import ModalStyle from "../components/Modal/ModalStyle.module.css";
 import { Book } from "../types/review.types";
 import bookImg from "../assets/bookImg.png";
+import bookImgLarge from "../assets/bookImgLarge.png";
 import { Link } from 'react-router-dom';
 
 function HomePage() {
 
   const [search, setSearch] = useState("");
+
+  const [searchQuery, setSearchQuery] = useState(false);
+  const [error, setError] = useState("");
+  //Loading
+  const [loadingSpinner, setLoadingSpinner] = useState(false);
+
   //Hämta context för reviews
   const { books, getBooks } = useReview();
-
-  const [error, setError] = useState("");
 
   const bookArticle: object = {
     display: "flex",
@@ -34,6 +40,32 @@ function HomePage() {
     textDecoration: "none"
   }
 
+  useEffect(() => {
+
+    if (books && books.length === 0 && searchQuery) {
+      setError("Det finns inga böcker under den titel");
+    } else {
+      setError("");
+    }
+
+    setLoadingSpinner(false);
+  }, [books, searchQuery]);
+
+
+  const handleSearch = async (search: string) => {
+
+    setLoadingSpinner(true);
+    setError("");
+
+    try {
+      await getBooks(search);
+      setSearchQuery(true);
+    } catch (error) {
+      setError("Det gick inte att hämta böcker");
+    }
+  }
+
+
   return (
     <>
       <div style={{ margin: "4rem auto 4rem auto", maxWidth: "40rem", width: "100%" }}>
@@ -46,12 +78,20 @@ function HomePage() {
             onChange={(e) => setSearch(e.target.value)}
             style={{ maxWidth: "40rem", width: "100%", padding: "0.8rem", borderRadius: "0.5rem", border: "none" }}
           />
-          <button className={HomeStyle.btnSearch} onClick={() => getBooks(search)}><Search style={{ color: "#1e1e1e" }} /></button>
+          <button className={HomeStyle.btnSearch} onClick={() => handleSearch(search)}><Search style={{ color: "#1e1e1e" }} /></button>
         </div>
       </div>
-      <div style={{textAlign: "center", marginBottom: "20rem", marginTop:"10rem"}} className={HomeStyle.bookHomepage}>
-        <img src={bookImg} alt="bok"/>
-      </div>
+
+      {loadingSpinner && <div className={ModalStyle.loadingSpinnerHome}></div>}
+
+
+      {
+        !searchQuery &&
+        <div style={{ textAlign: "center", marginBottom: "20rem", marginTop: "10rem" }} className={HomeStyle.bookHomepage}>
+          <img src={bookImgLarge} alt="Bokio" style={{maxWidth:"20rem", width:"100%"}} />
+        </div>
+      }
+
 
       <div style={bookArticle}>
         {
@@ -66,7 +106,7 @@ function HomePage() {
               </article>
             ))
           ) :
-            <p>{error}</p>
+            <p style={{ textAlign: "center", width: "100%" }}>{error}</p>
         }
       </div>
 

@@ -5,6 +5,7 @@ import { Review } from "../types/review.types";
 import { Heart, Star, ThumbsDown, ThumbsUp } from "lucide-react";
 import MyPageStyle from "../pages/MypageStyle.module.css";
 import DeleteModal from "../components/Modal/DeleteModal";
+import { Link } from "react-router-dom";
 
 
 function MyPage() {
@@ -77,17 +78,22 @@ function MyPage() {
                                     <p>Rekommendation: {review.recommend ? <ThumbsUp /> : <ThumbsDown />}</p>
                                     <p>Likes: {review.like} <Heart /></p>
 
-                                    <button onClick={() => setShowDeleteModal(true)}>Ta bort</button>
-                                    {showDeleteModal && <DeleteModal onCloseProp={
-                                        //Om användare klickar på ta bort i modalen då blir confirmDelete true
-                                        (confirmDelete: boolean) => {
-                                            if (confirmDelete && user) {
-                                                //Delete funktion ska kallas här
-                                                deleteReview(review._id, user?._id)
+                                    <div>
+
+                                        <Link to={`/book/${review.bookId}`}>Se bok</Link>
+                                        <button>Uppdatera</button>
+                                        <button onClick={() => setShowDeleteModal(true)}>Ta bort</button>
+                                        {showDeleteModal && <DeleteModal onCloseProp={
+                                            //Om användare klickar på ta bort i modalen då blir confirmDelete true
+                                            (confirmDelete: boolean) => {
+                                                if (confirmDelete && user) {
+                                                    //Delete funktion ska kallas här
+                                                    deleteReview(review._id, user?._id)
+                                                }
+                                                setShowDeleteModal(false)
                                             }
-                                            setShowDeleteModal(false)
-                                        }
-                                    } />}
+                                        } />}
+                                    </div>
                                 </article>
                             ))
                         ) :
