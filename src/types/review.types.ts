@@ -22,7 +22,6 @@ export interface PostReview {
 }
 
 export interface PutReview {
-    _id: string,
     reviewText: string,
     rating: number,
     pagesRead: number | null,
@@ -60,5 +59,5 @@ export interface ReviewContextType {
     getBookById: (bookId: string) => void,
     postReview: (newReview: PostReview) => void,
     deleteReview:(reviewId: string, userId: string) => void,
-    updateReview:(reviewId: string, userId: string, putReview: PutReview) => void
+    updateReview:(reviewId: string, userId: string, putReview: PutReview, shouldUpdateById: boolean) => void
 }

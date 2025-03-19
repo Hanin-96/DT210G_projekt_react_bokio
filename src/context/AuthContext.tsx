@@ -28,6 +28,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
             })
 
             if (!response.ok) {
+                const data = await response.json();
+                console.log(data.message)
                 throw new Error("Registrering misslyckades");
 
             }
@@ -75,7 +77,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     const logout = async () => {
         try {
             const response = await fetch("http://localhost:3000/logout", {
-                method: "POST",
+                method: "GET",
                 headers: {
                     "Content-Type": "application/json",
                 },
@@ -92,7 +94,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
         } catch (error) {
             //Sätta user state
-            setUser(null);
+            console.log(error);
+            throw new Error("Utloggning misslyckades");
         }
 
     }

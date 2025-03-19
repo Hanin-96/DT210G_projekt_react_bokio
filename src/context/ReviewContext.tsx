@@ -229,6 +229,7 @@ export const ReviewProvider: React.FC<ImagesProviderProps> = ({ children }) => {
 
             if (response.ok) {
                 await getReviewsById(userId);
+                
             }
 
         } catch (error) {
@@ -236,8 +237,10 @@ export const ReviewProvider: React.FC<ImagesProviderProps> = ({ children }) => {
         }
     }
 
-    const updateReview = async(reviewId: string, userId: string, putReview: PutReview): Promise<void> => {
+    const updateReview = async(reviewId: string, userId: string, putReview: PutReview, shouldUpdateById: boolean): Promise<void> => {
         try {
+
+            putReview.userId = userId;
             
             const response = await fetch(`http://localhost:3000/review/${reviewId}`, {
                 method: "PUT",
@@ -251,7 +254,11 @@ export const ReviewProvider: React.FC<ImagesProviderProps> = ({ children }) => {
 
 
             if (response.ok) {
-                await getReviewsById(userId);
+                if(shouldUpdateById) {
+                    await getReviewsById(userId);
+                } else {
+                    await getReviewsByBook(putReview.bookId);
+                }
             }
 
         } catch (error) {

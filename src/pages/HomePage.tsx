@@ -87,8 +87,8 @@ function HomePage() {
 
       {
         !searchQuery &&
-        <div style={{ textAlign: "center", marginBottom: "20rem", marginTop: "10rem" }} className={HomeStyle.bookHomepage}>
-          <img src={bookImgLarge} alt="Bokio" style={{maxWidth:"20rem", width:"100%"}} />
+        <div style={{ textAlign: "center",maxWidth:"20rem", width:"100%", margin: "10rem auto 20rem auto" }}>
+          <img src={bookImgLarge} className={HomeStyle.bookHomepage} alt="Bokio" style={{maxWidth:"20rem", width:"100%", textAlign:"center"}} />
         </div>
       }
 

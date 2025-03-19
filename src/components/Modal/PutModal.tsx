@@ -22,7 +22,6 @@ function PutModal({ putReview, onCloseProp, bookTitleProp }: { putReview: PutRev
         //console.log("LoadingSpinner:", loadingSpinner)
         //Input fälten är antingen tomma eller ifyllda
         onCloseProp({
-            _id : formData._id,
             reviewText: formData.reviewText,
             rating: formData.rating,
             pagesRead: formData.pagesRead,
@@ -41,7 +40,6 @@ function PutModal({ putReview, onCloseProp, bookTitleProp }: { putReview: PutRev
                 <div className={ModalStyle.textBoxStyle}>
                     <button className={ModalStyle.btnCancel} onClick={() => onCloseProp({
                         reviewText: "", rating: 1, pagesRead: 0, status: "", recommend: false,
-                        _id: formData._id,
                         userId: "",
                         bookId: ""
                     })} style={{ background: "none", color: "#1e1e1e" }}><X /></button>
@@ -127,7 +125,6 @@ function PutModal({ putReview, onCloseProp, bookTitleProp }: { putReview: PutRev
                                pagesRead: formData.pagesRead,
                                status: formData.status,
                                recommend: formData.recommend,
-                               _id: formData._id,
                                userId: formData.userId,
                                bookId: formData.bookId
                             })}>Ångra</button>

@@ -1,7 +1,6 @@
 import { createBrowserRouter } from "react-router-dom";
 import Layout from "./components/Layout";
 import HomePage from "./pages/HomePage";
-import ReviewPage from "./pages/ReviewPage";
 import RegisterPage from "./pages/RegisterLogin/RegisterPage";
 import LoginPage from "./pages/RegisterLogin/LoginPage";
 import MyPage from "./pages/MyPage";
@@ -34,13 +33,6 @@ const router = createBrowserRouter([
                 element:
                     (
                         <BookPage />
-                    ),
-            },
-            {
-                path: "/reviews",
-                element:
-                    (
-                        <ReviewPage />
                     ),
             },
             {

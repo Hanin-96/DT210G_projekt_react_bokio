@@ -45,7 +45,8 @@ function RegisterPage() {
       setPassword("");
 
     } catch (error) {
-      setError("Det gick inte att registrera användarkonto")
+      console.log(error)
+      setError("Serverfel, E-post/användarnamn finns redan")
     }
   }
   return (
@@ -114,7 +115,7 @@ function RegisterPage() {
         </form>
 
         {
-          msgRegister && <p>{msgRegister}</p>
+          msgRegister && <p style={{margin:"1rem auto 1rem auto"}}>{msgRegister}</p>
         }
         <div>
           <Link to="/login" style={{color: "white", display: "flex", marginTop: "1rem", marginBottom: "10rem", justifyContent: "flex-start", alignItems: "center", fontSize: "1.5rem"}}><ChevronLeft />Inloggning</Link>

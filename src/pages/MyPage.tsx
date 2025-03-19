@@ -73,7 +73,14 @@ function MyPage() {
                             reviews.map((review: Review, index: number) => (
                                 <article key={review._id} style={{ maxWidth: "30rem", width: "100%", opacity: loading ? 0 : 1, ...articleStyle }} className={MyPageStyle.articleReviews}>
                                     <h4>{bookTitles ? bookTitles[index] || "Titel finns inte" : "Titel finns inte"}</h4>
-                                    <p>{review.reviewText}</p>
+                                    <p style={{
+                                        whiteSpace: "nowrap",
+                                        width: "100%",
+                                        overflow: "hidden",
+                                        textOverflow: "ellipsis"
+                                    }}>
+                                        {review.reviewText}
+                                    </p>
                                     <p>Lästa sidor: {review.pagesRead}</p>
                                     <p> {[1, 2, 3, 4, 5].map((starValue) => (
                                         <Star key={starValue} fill={review.rating >= starValue ? "#FF882D" : "none"} stroke="#1e1e1e" />
@@ -85,13 +92,13 @@ function MyPage() {
                                     <div>
 
                                         <Link to={`/book/${review.bookId}`}>Se bok</Link>
+
                                         <button onClick={() => setShowPutModal(true)}>Ändra</button>
-                                        {showPutModal && <PutModal putReview={{ _id: review._id, reviewText: review.reviewText, rating: review.rating, pagesRead: review.pagesRead, status: review.status, recommend: review.recommend, userId: review.userId._id, bookId: review.bookId }}
+                                        {showPutModal && <PutModal putReview={{ reviewText: review.reviewText, rating: review.rating, pagesRead: review.pagesRead, status: review.status, recommend: review.recommend, userId: review.userId._id, bookId: review.bookId }}
                                             bookTitleProp={bookTitles ? bookTitles[index] : "Titel finns inte"}
                                             onCloseProp={async (updatedReview: PutReview) => {
                                                 if (updatedReview && user) {
-                                                    console.log("review _id:", updatedReview._id)
-                                                    await updateReview(review._id, user?._id, updatedReview);
+                                                    await updateReview(review._id, user?._id, updatedReview, true);
                                                 }
                                                 setShowPutModal(false);
 
