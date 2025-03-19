@@ -15,14 +15,17 @@ function PostModal({ onCloseProp }: { onCloseProp: (newReview: PostReview) => vo
     //Error state
     const [error, setError] = useState("");
 
+    //Loading
+    const [loadingSpinner, setLoadingSpinner] = useState(false);
+
     const handleOnSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+        setLoadingSpinner(true);
         event.preventDefault();
         setError('');
 
-
+        //console.log("LoadingSpinner:", loadingSpinner)
         //Input fälten är antingen tomma eller ifyllda
         onCloseProp({ reviewText: formData.reviewText, rating: formData.rating, pagesRead: formData.pagesRead, status: formData.status, recommend: formData.recommend, userId: formData.userId, bookId: formData.bookId });
-
     }
     return (
         <>
@@ -52,7 +55,7 @@ function PostModal({ onCloseProp }: { onCloseProp: (newReview: PostReview) => vo
                                             value={starValue}
                                             name="star-radio"
                                             onChange={(event) => setFormData({ ...formData, rating: Number(event.target.value) })}
-                                            style={{ position: "absolute", opacity: 0, width: "100%", height: "100%" }} 
+                                            style={{ position: "absolute", opacity: 0, width: "100%", height: "100%" }}
                                         />
                                         <label htmlFor={`st-${starValue}`} style={{ cursor: "pointer" }}>
                                             <Star fill={formData.rating >= starValue ? "#FF882D" : "transparent"} stroke="#1e1e1e" />
@@ -67,14 +70,14 @@ function PostModal({ onCloseProp }: { onCloseProp: (newReview: PostReview) => vo
                             <label htmlFor="pagesRead">Lästa sidor:</label>
 
                             <input type="number" name="pagesRead" id="pagesRead" required
-                                value={formData.pagesRead}
+                                value={formData.pagesRead ?? ''}
                                 onChange={(event) => setFormData({ ...formData, pagesRead: Number(event.target.value) })} />
                         </div>
 
                         <div className={ModalStyle.formBox}>
                             <label htmlFor="status">Status:</label>
                             <select name="status" id="status" required
-                            style={{marginLeft:"0.5rem", padding: "0.5rem"}}
+                                style={{ marginLeft: "0.5rem", padding: "0.5rem" }}
                                 value={formData.status}
                                 onChange={(event) => setFormData({ ...formData, status: event.target.value })}>
                                 <option value="Läser just nu">Läser just nu</option>
@@ -85,17 +88,17 @@ function PostModal({ onCloseProp }: { onCloseProp: (newReview: PostReview) => vo
                         <div style={{ marginTop: "2rem" }} className={ModalStyle.formRecommend}>
                             <label htmlFor="pagesRead">Rekommendation:</label>
                             <div className={ModalStyle.recommendWrap}>
-                                <div style={{display: "flex", gap:"0.5rem"}}>
+                                <div style={{ display: "flex", gap: "0.5rem" }}>
                                     <input type="radio" name="recommend" id="recommend" value={"true"}
                                         checked={formData.recommend === true}
-                                        onChange={(event) => setFormData({ ...formData, recommend: true })} />
+                                        onChange={() => setFormData({ ...formData, recommend: true })} />
                                     <label htmlFor="recommend"><ThumbsUp />Tummen up</label>
                                 </div>
 
-                                <div style={{display: "flex", gap:"0.5rem"}}>
+                                <div style={{ display: "flex", gap: "0.5rem" }}>
                                     <input type="radio" name="recommend" id="notRecommend" value={"false"}
                                         checked={formData.recommend === false}
-                                        onChange={(event) => setFormData({ ...formData, recommend: false })} />
+                                        onChange={() => setFormData({ ...formData, recommend: false })} />
                                     <label htmlFor="notRecommend"><ThumbsDown />Tummen ner</label>
                                 </div>
                             </div>
@@ -110,6 +113,11 @@ function PostModal({ onCloseProp }: { onCloseProp: (newReview: PostReview) => vo
                             <button type="submit">Lägg till</button>
                         </div>
                     </form>
+
+
+                    
+                        {loadingSpinner && <div className={ModalStyle.loadingSpinner}></div>}
+                    
                 </div >
             </div >
 

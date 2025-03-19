@@ -2,18 +2,21 @@ import { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { useReview } from "../context/ReviewContext";
 import { Review } from "../types/review.types";
-import { Heart, ThumbsDown, ThumbsUp } from "lucide-react";
+import { Heart, Star, ThumbsDown, ThumbsUp } from "lucide-react";
 import MyPageStyle from "../pages/MypageStyle.module.css";
+import DeleteModal from "../components/Modal/DeleteModal";
 
 
 function MyPage() {
     //States
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(true);
+    //Modal state för delete
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
 
     //Context
     const { user } = useAuth();
-    const { reviews, bookTitles, getReviewsById } = useReview();
+    const { reviews, bookTitles, getReviewsById, deleteReview } = useReview();
 
     useEffect(() => {
         const getAllReviews = async () => {
@@ -59,18 +62,32 @@ function MyPage() {
                 {
                     loading && <p style={{ color: "white", margin: "2rem auto 2rem auto" }}>Laddar in recensioner...</p>
                 }
-                <div style={{ display: "flex", flexDirection: "row", flexWrap: "wrap", gap: "4rem", justifyContent: "left", marginTop: "4rem"}}>
+                <div style={{ display: "flex", flexDirection: "row", flexWrap: "wrap", gap: "4rem", justifyContent: "left", marginTop: "4rem" }}>
 
                     {
                         reviews && reviews?.length > 0 ? (
                             reviews.map((review: Review, index: number) => (
-                                <article key={review._id} style={{ maxWidth: "30rem", width: "100%", opacity: loading ? 0 : 1, ...articleStyle}} className={MyPageStyle.articleReviews}>
+                                <article key={review._id} style={{ maxWidth: "30rem", width: "100%", opacity: loading ? 0 : 1, ...articleStyle }} className={MyPageStyle.articleReviews}>
                                     <h4>{bookTitles ? bookTitles[index] || "Titel finns inte" : "Titel finns inte"}</h4>
                                     <p>{review.reviewText}</p>
                                     <p>Lästa sidor: {review.pagesRead}</p>
-                                    <p>Betyg: {review.rating}</p>
+                                    <p> {[1, 2, 3, 4, 5].map((starValue) => (
+                                        <Star key={starValue} fill={review.rating >= starValue ? "#FF882D" : "none"} stroke="#1e1e1e" />
+                                    ))}</p>
                                     <p>Rekommendation: {review.recommend ? <ThumbsUp /> : <ThumbsDown />}</p>
                                     <p>Likes: {review.like} <Heart /></p>
+
+                                    <button onClick={() => setShowDeleteModal(true)}>Ta bort</button>
+                                    {showDeleteModal && <DeleteModal onCloseProp={
+                                        //Om användare klickar på ta bort i modalen då blir confirmDelete true
+                                        (confirmDelete: boolean) => {
+                                            if (confirmDelete && user) {
+                                                //Delete funktion ska kallas här
+                                                deleteReview(review._id, user?._id)
+                                            }
+                                            setShowDeleteModal(false)
+                                        }
+                                    } />}
                                 </article>
                             ))
                         ) :

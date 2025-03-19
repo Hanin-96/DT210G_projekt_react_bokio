@@ -49,6 +49,9 @@ function HomePage() {
           <button className={HomeStyle.btnSearch} onClick={() => getBooks(search)}><Search style={{ color: "#1e1e1e" }} /></button>
         </div>
       </div>
+      <div style={{textAlign: "center", marginBottom: "20rem", marginTop:"10rem"}} className={HomeStyle.bookHomepage}>
+        <img src={bookImg} alt="bok"/>
+      </div>
 
       <div style={bookArticle}>
         {

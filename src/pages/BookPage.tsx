@@ -46,7 +46,7 @@ function BookPage() {
       }
     };
     getAllReviews();
-  }, [bookId]);
+  }, []);
 
   const reviewStyle: object = {
     maxWidth: "40rem", width: "100%", marginBottom: "2rem", backgroundColor: "#F8F5F2", color: "#1e1e1e", padding: "1rem", borderRadius: "1rem", fontSize: "1.6rem", boxShadow: "5px 5px 0px 0px #FF882D"
@@ -90,6 +90,7 @@ function BookPage() {
                     console.log("newReview:", newReview);
                     await postReview(newReview);
                   }
+                  
                   setShowModal(false);
                 }} />}
               </div>

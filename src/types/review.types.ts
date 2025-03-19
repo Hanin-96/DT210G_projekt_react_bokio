@@ -48,5 +48,6 @@ export interface ReviewContextType {
     getReviewsById: (_id: string) => void,
     getReviewsByBook: (bookId: string) => void,
     getBookById: (bookId: string) => void,
-    postReview: (newReview: PostReview) => void
+    postReview: (newReview: PostReview) => void,
+    deleteReview:(reviewId: string, userId: string) => void
 }

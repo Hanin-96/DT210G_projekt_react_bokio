@@ -85,13 +85,13 @@ export const ReviewProvider: React.FC<ImagesProviderProps> = ({ children }) => {
             }
 
             const data = await response.json();
-            console.log("Book volumeInfo:", data);
-            console.log("Book volumeInfo thumbnail:", data.thumbnail);
+            console.log("getBookById:", data);
+            //console.log("Book volumeInfo thumbnail:", data.thumbnail);
             setOneBook(data);
 
         } catch (error) {
             console.error("Det gick inte att hämta recensioner", error);
-            setReviews([]);
+            setOneBook(null);
         }
 
     }
@@ -149,7 +149,7 @@ export const ReviewProvider: React.FC<ImagesProviderProps> = ({ children }) => {
                 if (!bookResponse.ok) return "Titel ej hittad";
 
                 const bookData = await bookResponse.json();
-                //console.log("bookData:", bookData)
+                console.log("bookData:", bookData)
                 return bookData.title || "Titel ej hittad";
             } catch (error) {
                 console.error("Fel vid hämtning av bok:", error);
@@ -157,6 +157,7 @@ export const ReviewProvider: React.FC<ImagesProviderProps> = ({ children }) => {
             }
         }
         ));
+        console.log("titles:", titles)
         return titles;
     }
 
@@ -174,12 +175,12 @@ export const ReviewProvider: React.FC<ImagesProviderProps> = ({ children }) => {
 
             if (response.ok) {
                 const data = await response.json();
-                console.log(data)
+                console.log("getReviewsByBook:", data)
                 setReviews(data.reviews);
                 //Extrahera bookId från recensionerna
-                const titles = await getBookTitles(data.reviews);
+                //const titles = await getBookTitles(data.reviews);
                 // Uppdatera state med alla boktitlar
-                setBookTitles(titles);
+                //setBookTitles(titles);
 
 
             } else {
@@ -203,22 +204,42 @@ export const ReviewProvider: React.FC<ImagesProviderProps> = ({ children }) => {
                 credentials: "include"
             })
 
-            if(response.ok) {
+            if (response.ok) {
                 console.log("response:", response);
                 await getReviewsByBook(newReview.bookId);
             }
-                
+
 
 
         } catch (error) {
             console.error("Det gick inte att skapa en recension:", error);
 
         }
-
     }
 
+    const deleteReview = async (reviewId: string, userId: string): Promise<void> => {
+        try {
+            const response = await fetch(`http://localhost:3000/review/${reviewId}`, {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                credentials: "include"
+            })
+
+            if (response.ok) {
+                await getReviewsById(userId);
+            }
+
+        } catch (error) {
+            console.error("Det gick inte att radera bilden:", error);
+        }
+    }
+
+
+
     return (
-        <ReviewContext.Provider value={{ reviews, bookTitles, books, oneBook, getReviews, getBooks, getReviewsById, getReviewsByBook, getBookById, postReview }}>
+        <ReviewContext.Provider value={{ reviews, bookTitles, books, oneBook, getReviews, getBooks, getReviewsById, getReviewsByBook, getBookById, postReview, deleteReview }}>
             {children}
         </ReviewContext.Provider>
     )

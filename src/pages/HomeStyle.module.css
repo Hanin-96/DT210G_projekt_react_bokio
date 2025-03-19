@@ -9,3 +9,22 @@
 .btnSearch:hover {
     background-color: #FF882D;
 }
+
+.bookHomepage {
+    animation: loadingAnim 15s linear infinite;
+}
+
+.bookHomepage img {
+    box-shadow: rgb(255, 255, 255) 5px 5px 0px 0px;
+    border-radius: 1rem;
+}
+
+@keyframes loadingAnim {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
