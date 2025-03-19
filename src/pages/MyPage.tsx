@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { useReview } from "../context/ReviewContext";
-import { Review } from "../types/review.types";
+import { PutReview, Review } from "../types/review.types";
 import { Heart, Star, ThumbsDown, ThumbsUp } from "lucide-react";
 import MyPageStyle from "../pages/MypageStyle.module.css";
 import DeleteModal from "../components/Modal/DeleteModal";
 import { Link } from "react-router-dom";
+import PutModal from "../components/Modal/PutModal";
 
 
 function MyPage() {
@@ -14,10 +15,12 @@ function MyPage() {
     const [loading, setLoading] = useState(true);
     //Modal state för delete
     const [showDeleteModal, setShowDeleteModal] = useState(false);
+    //Modal state för uppdatera
+    const [showPutModal, setShowPutModal] = useState(false);
 
     //Context
     const { user } = useAuth();
-    const { reviews, bookTitles, getReviewsById, deleteReview } = useReview();
+    const { reviews, bookTitles, getReviewsById, deleteReview, updateReview } = useReview();
 
     useEffect(() => {
         const getAllReviews = async () => {
@@ -77,11 +80,26 @@ function MyPage() {
                                     ))}</p>
                                     <p>Rekommendation: {review.recommend ? <ThumbsUp /> : <ThumbsDown />}</p>
                                     <p>Likes: {review.like} <Heart /></p>
+                                    <p>userId:{review.userId._id}</p>
 
                                     <div>
 
                                         <Link to={`/book/${review.bookId}`}>Se bok</Link>
-                                        <button>Uppdatera</button>
+                                        <button onClick={() => setShowPutModal(true)}>Ändra</button>
+                                        {showPutModal && <PutModal putReview={{ _id: review._id, reviewText: review.reviewText, rating: review.rating, pagesRead: review.pagesRead, status: review.status, recommend: review.recommend, userId: review.userId._id, bookId: review.bookId }}
+                                            bookTitleProp={bookTitles ? bookTitles[index] : "Titel finns inte"}
+                                            onCloseProp={async (updatedReview: PutReview) => {
+                                                if (updatedReview && user) {
+                                                    console.log("review _id:", updatedReview._id)
+                                                    await updateReview(review._id, user?._id, updatedReview);
+                                                }
+                                                setShowPutModal(false);
+
+                                            }}
+                                        />}
+
+
+
                                         <button onClick={() => setShowDeleteModal(true)}>Ta bort</button>
                                         {showDeleteModal && <DeleteModal onCloseProp={
                                             //Om användare klickar på ta bort i modalen då blir confirmDelete true

@@ -7,7 +7,7 @@ export interface Review {
     status: string,
     recommend: boolean,
     like: number,
-    userId: { _id: string; firstname: string; lastname: string; username: string },
+    userId: { _id: string; username: string },
     bookId: string
 }
 
@@ -19,7 +19,17 @@ export interface PostReview {
     recommend: boolean,
     userId: User["_id"],
     bookId: Book["id"]
+}
 
+export interface PutReview {
+    _id: string,
+    reviewText: string,
+    rating: number,
+    pagesRead: number | null,
+    status: string,
+    recommend: boolean,
+    userId: User["_id"],
+    bookId: Book["id"]
 }
 
 export interface Book {
@@ -49,5 +59,6 @@ export interface ReviewContextType {
     getReviewsByBook: (bookId: string) => void,
     getBookById: (bookId: string) => void,
     postReview: (newReview: PostReview) => void,
-    deleteReview:(reviewId: string, userId: string) => void
+    deleteReview:(reviewId: string, userId: string) => void,
+    updateReview:(reviewId: string, userId: string, putReview: PutReview) => void
 }

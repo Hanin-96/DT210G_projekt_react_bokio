@@ -88,6 +88,9 @@ function BookPage() {
                 {showModal && <PostModal onCloseProp={async (newReview: PostReview) => {
                   if (newReview && user?._id) {
                     console.log("newReview:", newReview);
+                    if(newReview.pagesRead == null) {
+                      newReview.pagesRead = 0;
+                    }
                     await postReview(newReview);
                   }
                   

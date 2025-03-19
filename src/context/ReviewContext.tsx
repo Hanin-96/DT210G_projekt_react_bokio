@@ -1,5 +1,5 @@
 import { createContext, useState, useContext, ReactNode } from "react";
-import { Book, OneBook, PostReview, Review } from "../types/review.types";
+import { Book, OneBook, PostReview, PutReview, Review } from "../types/review.types";
 import { ReviewContextType } from "../types/review.types";
 
 
@@ -232,14 +232,39 @@ export const ReviewProvider: React.FC<ImagesProviderProps> = ({ children }) => {
             }
 
         } catch (error) {
-            console.error("Det gick inte att radera bilden:", error);
+            console.error("Det gick inte att radera recensionen:", error);
         }
+    }
+
+    const updateReview = async(reviewId: string, userId: string, putReview: PutReview): Promise<void> => {
+        try {
+            
+            const response = await fetch(`http://localhost:3000/review/${reviewId}`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(putReview),
+                credentials: "include"
+            })
+            console.log("updateReview putReview:", putReview)
+
+
+            if (response.ok) {
+                await getReviewsById(userId);
+            }
+
+        } catch (error) {
+            console.error("Det gick inte att upddatera recensionen:", error);
+        }
+
+
     }
 
 
 
     return (
-        <ReviewContext.Provider value={{ reviews, bookTitles, books, oneBook, getReviews, getBooks, getReviewsById, getReviewsByBook, getBookById, postReview, deleteReview }}>
+        <ReviewContext.Provider value={{ reviews, bookTitles, books, oneBook, getReviews, getBooks, getReviewsById, getReviewsByBook, getBookById, postReview, deleteReview, updateReview }}>
             {children}
         </ReviewContext.Provider>
     )
