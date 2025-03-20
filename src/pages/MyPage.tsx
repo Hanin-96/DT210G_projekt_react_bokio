@@ -81,7 +81,6 @@ function MyPage() {
                                     }}>
                                         {review.reviewText}
                                     </p>
-                                    <p>Lästa sidor: {review.pagesRead}</p>
                                     <p> {[1, 2, 3, 4, 5].map((starValue) => (
                                         <Star key={starValue} fill={review.rating >= starValue ? "#FF882D" : "none"} stroke="#1e1e1e" />
                                     ))}</p>
@@ -94,10 +93,10 @@ function MyPage() {
                                         <Link to={`/book/${review.bookId}`}>Se bok</Link>
 
                                         <button onClick={() => setShowPutModal(true)}>Ändra</button>
-                                        {showPutModal && <PutModal putReview={{ reviewText: review.reviewText, rating: review.rating, pagesRead: review.pagesRead, status: review.status, recommend: review.recommend, userId: review.userId._id, bookId: review.bookId }}
+                                        {showPutModal && <PutModal putReview={{ reviewText: review.reviewText, rating: review.rating,  status: review.status, recommend: review.recommend, userId: review.userId._id, bookId: review.bookId }}
                                             bookTitleProp={bookTitles ? bookTitles[index] : "Titel finns inte"}
                                             onCloseProp={async (updatedReview: PutReview) => {
-                                                if (updatedReview && user) {
+                                                if (updatedReview && updatedReview.bookId != "" && user) {
                                                     await updateReview(review._id, user?._id, updatedReview, true);
                                                 }
                                                 setShowPutModal(false);

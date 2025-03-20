@@ -1,5 +1,5 @@
 import { createContext, useState, useContext, ReactNode } from "react";
-import { Book, OneBook, PostReview, PutReview, Review } from "../types/review.types";
+import { PostReview, PutReview, Review } from "../types/review.types";
 import { ReviewContextType } from "../types/review.types";
 
 
@@ -11,12 +11,10 @@ interface ImagesProviderProps {
 
 export const ReviewProvider: React.FC<ImagesProviderProps> = ({ children }) => {
     const [reviews, setReviews] = useState<Review[]>([]);
-    const [books, setBooks] = useState<Book[]>([]);
-    const [oneBook, setOneBook] = useState<OneBook | null>(null);
 
     const [bookTitles, setBookTitles] = useState<string[]>([]);
 
-    //Hämta alla bilder publikt
+    //Hämta alla reviews publikt
     const getReviews = async (): Promise<void> => {
         try {
             const response = await fetch("http://localhost:3000/reviews", {
@@ -40,60 +38,6 @@ export const ReviewProvider: React.FC<ImagesProviderProps> = ({ children }) => {
             console.error("Det gick inte att hämta recensionerna:", error);
             setReviews([]);
         }
-    }
-
-    //Hämta böcker
-    const getBooks = async (search: string): Promise<void> => {
-        try {
-            console.log("search:", search)
-            const response = await fetch(`http://localhost:3000/books?title=${encodeURIComponent(search)}`, {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                credentials: "include",
-            })
-
-            if (response.ok) {
-                const data = await response.json();
-                console.log(data)
-                setBooks(data);
-
-            } else {
-                setBooks([]);
-            }
-
-        } catch (error) {
-            console.error("Det gick inte att hämta böcker", error);
-            setBooks([]);
-        }
-    }
-
-    //Hämta bok utifrån bookId
-    const getBookById = async (bookId: string): Promise<void> => {
-        try {
-            const response = await fetch(`http://localhost:3000/book/${bookId}`, {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                credentials: "include",
-            });
-
-            if (!response.ok) {
-                return;
-            }
-
-            const data = await response.json();
-            console.log("getBookById:", data);
-            //console.log("Book volumeInfo thumbnail:", data.thumbnail);
-            setOneBook(data);
-
-        } catch (error) {
-            console.error("Det gick inte att hämta recensioner", error);
-            setOneBook(null);
-        }
-
     }
 
     //Hämta reviews utifrån userId
@@ -129,11 +73,9 @@ export const ReviewProvider: React.FC<ImagesProviderProps> = ({ children }) => {
         }
     };
 
+    //Hämta boktitlar
     async function getBookTitles(reviewList: any) {
         const bookIds = reviewList.map((review: Review) => review.bookId);
-        //console.log("BokId:", bookIds);
-
-        //console.log("Bok titel:", data.reviewsByUserId.title);
 
         //Hämta boktitlar för varje bokId
         const titles = await Promise.all(bookIds.map(async (id: string) => {
@@ -271,7 +213,7 @@ export const ReviewProvider: React.FC<ImagesProviderProps> = ({ children }) => {
 
 
     return (
-        <ReviewContext.Provider value={{ reviews, bookTitles, books, oneBook, getReviews, getBooks, getReviewsById, getReviewsByBook, getBookById, postReview, deleteReview, updateReview }}>
+        <ReviewContext.Provider value={{ reviews, bookTitles, getReviews, getReviewsById, getReviewsByBook, postReview, deleteReview, updateReview }}>
             {children}
         </ReviewContext.Provider>
     )

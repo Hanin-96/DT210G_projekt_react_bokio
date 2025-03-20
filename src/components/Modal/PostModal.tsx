@@ -1,16 +1,16 @@
 import { useState } from "react"
 import { PostReview } from "../../types/review.types"
 import { useAuth } from "../../context/AuthContext";
-import { useReview } from "../../context/ReviewContext";
 import { Star, ThumbsDown, ThumbsUp, X } from "lucide-react";
 import ModalStyle from "../Modal/ModalStyle.module.css";
+import { useBook } from "../../context/BookContext";
 
 
 function PostModal({ onCloseProp }: { onCloseProp: (newReview: PostReview) => void }) {
     const { user } = useAuth();
-    const { oneBook } = useReview();
+    const { oneBook } = useBook();
 
-    const [formData, setFormData] = useState<PostReview>({ reviewText: "", rating: 1, pagesRead: null, status: "Läser just nu", recommend: false, userId: user?._id || "", bookId: oneBook?.id || "" })
+    const [formData, setFormData] = useState<PostReview>({ reviewText: "", rating: 1, status: "Läser just nu", recommend: false, userId: user?._id || "", bookId: oneBook?.id || "" })
 
     //Error state
     const [error, setError] = useState("");
@@ -25,14 +25,14 @@ function PostModal({ onCloseProp }: { onCloseProp: (newReview: PostReview) => vo
 
         //console.log("LoadingSpinner:", loadingSpinner)
         //Input fälten är antingen tomma eller ifyllda
-        onCloseProp({ reviewText: formData.reviewText, rating: formData.rating, pagesRead: formData.pagesRead, status: formData.status, recommend: formData.recommend, userId: formData.userId, bookId: formData.bookId });
+        onCloseProp({ reviewText: formData.reviewText, rating: formData.rating, status: formData.status, recommend: formData.recommend, userId: formData.userId, bookId: formData.bookId });
     }
     return (
         <>
 
             <div className={ModalStyle.pageBody}>
                 <div className={ModalStyle.textBoxStyle}>
-                    <button className={ModalStyle.btnCancel} onClick={() => onCloseProp({ reviewText: "", rating: 1, pagesRead: 1, status: "", recommend: false, userId: user?._id || "", bookId: oneBook?.id || "" })} style={{ background: "none", color: "#1e1e1e" }}><X /></button>
+                    <button className={ModalStyle.btnCancel} onClick={() => onCloseProp({ reviewText: "", rating: 1, status: "", recommend: false, userId: user?._id || "", bookId: oneBook?.id || "" })} style={{ background: "none", color: "#1e1e1e" }}><X /></button>
                     <h1 style={{ marginBottom: "1rem" }}>Ny recension</h1>
 
                     <form onSubmit={handleOnSubmit}>
@@ -63,15 +63,6 @@ function PostModal({ onCloseProp }: { onCloseProp: (newReview: PostReview) => vo
                                     </div>
                                 ))}
                             </div>
-                        </div>
-
-
-                        <div className={ModalStyle.formBox}>
-                            <label htmlFor="pagesRead">Lästa sidor:</label>
-
-                            <input type="number" name="pagesRead" id="pagesRead"
-                                value={formData.pagesRead !== null ? formData.pagesRead.toString() : ''}
-                                onChange={(event) => setFormData({ ...formData, pagesRead: Number(event.target.value) })} />
                         </div>
 
                         <div className={ModalStyle.formBox}>
@@ -109,12 +100,18 @@ function PostModal({ onCloseProp }: { onCloseProp: (newReview: PostReview) => vo
                             error && <p style={{ fontSize: "1.5rem", color: "red" }}>{error}</p>
                         }
                         <div className={ModalStyle.modalBtn}>
-                            <button onClick={() => onCloseProp({ reviewText: "", rating: 1, pagesRead: 1, status: "", recommend: false, userId: user?._id || "", bookId: oneBook?.id || "" })}>Ångra</button>
+                            <button onClick={() => onCloseProp({
+                                reviewText: "",
+                                rating: 1, status: "",
+                                recommend: false,
+                                userId: "",
+                                bookId: ""
+                            })}>Ångra</button>
                             <button type="submit">Lägg till</button>
                         </div>
                     </form>
-                        {loadingSpinner && <div className={ModalStyle.loadingSpinner}></div>}
-                    
+                    {loadingSpinner && <div className={ModalStyle.loadingSpinner}></div>}
+
                 </div >
             </div >
 

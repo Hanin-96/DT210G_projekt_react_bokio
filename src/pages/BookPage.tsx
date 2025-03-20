@@ -8,6 +8,7 @@ import BookPageStyle from "../pages/BookPageStyle.module.css";
 import { useAuth } from "../context/AuthContext";
 import PostModal from "../components/Modal/PostModal";
 import PutModal from "../components/Modal/PutModal";
+import { useBook } from "../context/BookContext";
 
 
 function BookPage() {
@@ -21,7 +22,9 @@ function BookPage() {
 
 
   //Context
-  const { reviews, oneBook, getReviewsByBook, getBookById, postReview, updateReview } = useReview();
+  const { reviews, getReviewsByBook, postReview, updateReview } = useReview();
+  const { oneBook, getBookById } = useBook();
+
   const { user } = useAuth();
 
   //Hämtar bookId från url
@@ -92,11 +95,8 @@ function BookPage() {
                   <div>
                     <button type="button" style={{ display: "flex", alignItems: "center", justifyContent: "center" }} className={BookPageStyle.btnReview} onClick={() => setShowModal(true)}>Skriv recension <SquarePen style={{ marginLeft: "0.5rem" }} /></button>
                     {showModal && <PostModal onCloseProp={async (newReview: PostReview) => {
-                      if (newReview && user?._id) {
-                        console.log("newReview:", newReview);
-                        if (newReview.pagesRead == null) {
-                          newReview.pagesRead = 0;
-                        }
+                      if (newReview && newReview.bookId != "" && user?._id) {
+
                         await postReview(newReview);
                       }
 
@@ -126,7 +126,6 @@ function BookPage() {
                     <article key={review._id} style={reviewStyle}>
                       <h4>{review.userId.username}</h4>
                       <p>{review.reviewText}</p>
-                      <p>Lästa sidor: {review.pagesRead}</p>
                       <div style={{ marginTop: "10px", display: "flex", gap: "5px" }}>
                         {[1, 2, 3, 4, 5].map((starValue) => (
                           <Star key={starValue} fill={review.rating >= starValue ? "#FF882D" : "none"} stroke="#1e1e1e" />
@@ -138,18 +137,18 @@ function BookPage() {
                       {
                         review.userId._id == user?._id &&
                         <div>
-                        <button onClick={() => setShowPutModal(true)}>Ändra</button>
-                        {showPutModal && <PutModal putReview={{ reviewText: review.reviewText, rating: review.rating, pagesRead: review.pagesRead, status: review.status, recommend: review.recommend, userId: review.userId._id, bookId: review.bookId }}
-                          bookTitleProp={oneBook.title}
-                          onCloseProp={async (updatedReview: PutReview) => {
-                            if (updatedReview && user) {
-                              await updateReview(review._id, user?._id, updatedReview, false);
-                            }
-                            setShowPutModal(false);
+                          <button onClick={() => setShowPutModal(true)}>Ändra</button>
+                          {showPutModal && <PutModal putReview={{ reviewText: review.reviewText, rating: review.rating, status: review.status, recommend: review.recommend, userId: review.userId._id, bookId: review.bookId }}
+                            bookTitleProp={oneBook.title}
+                            onCloseProp={async (updatedReview: PutReview) => {
+                              if (updatedReview && user) {
+                                await updateReview(review._id, user?._id, updatedReview, false);
+                              }
+                              setShowPutModal(false);
 
-                          }}
-                        />}
-                      </div>
+                            }}
+                          />}
+                        </div>
                       }
 
 

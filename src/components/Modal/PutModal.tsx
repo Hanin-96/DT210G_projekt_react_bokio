@@ -24,7 +24,6 @@ function PutModal({ putReview, onCloseProp, bookTitleProp }: { putReview: PutRev
         onCloseProp({
             reviewText: formData.reviewText,
             rating: formData.rating,
-            pagesRead: formData.pagesRead,
             status: formData.status,
             recommend: formData.recommend,
             userId: formData.userId,
@@ -39,7 +38,7 @@ function PutModal({ putReview, onCloseProp, bookTitleProp }: { putReview: PutRev
             <div className={ModalStyle.pageBody}>
                 <div className={ModalStyle.textBoxStyle}>
                     <button className={ModalStyle.btnCancel} onClick={() => onCloseProp({
-                        reviewText: "", rating: 1, pagesRead: 0, status: "", recommend: false,
+                        reviewText: "", rating: 1, status: "", recommend: false,
                         userId: "",
                         bookId: ""
                     })} style={{ background: "none", color: "#1e1e1e" }}><X /></button>
@@ -73,15 +72,6 @@ function PutModal({ putReview, onCloseProp, bookTitleProp }: { putReview: PutRev
                                     </div>
                                 ))}
                             </div>
-                        </div>
-
-
-                        <div className={ModalStyle.formBox}>
-                            <label htmlFor="pagesRead">Lästa sidor:</label>
-
-                            <input type="number" name="pagesRead" id="pagesRead" required
-                                value={formData.pagesRead ?? ''}
-                                onChange={(event) => setFormData({ ...formData, pagesRead: Number(event.target.value) })} />
                         </div>
 
                         <div className={ModalStyle.formBox}>
@@ -120,13 +110,12 @@ function PutModal({ putReview, onCloseProp, bookTitleProp }: { putReview: PutRev
                         }
                         <div className={ModalStyle.modalBtn}>
                             <button onClick={() => onCloseProp({
-                               reviewText: formData.reviewText,
-                               rating: formData.rating,
-                               pagesRead: formData.pagesRead,
-                               status: formData.status,
-                               recommend: formData.recommend,
-                               userId: formData.userId,
-                               bookId: formData.bookId
+                              reviewText: "", 
+                              rating: 1,
+                               status: "",
+                                recommend: false,
+                                 userId: "", 
+                                 bookId: ""
                             })}>Ångra</button>
                             <button type="submit">Uppdatera</button>
                         </div>

@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react"
-import { useReview } from "../context/ReviewContext";
 import { Search } from "lucide-react";
 import HomeStyle from "../pages/HomeStyle.module.css";
 import ModalStyle from "../components/Modal/ModalStyle.module.css";
-import { Book } from "../types/review.types";
+import { Book } from "../types/book.types";
 import bookImg from "../assets/bookImg.png";
 import bookImgLarge from "../assets/bookImgLarge.png";
 import { Link } from 'react-router-dom';
+import { useBook } from "../context/BookContext";
 
 function HomePage() {
 
@@ -18,7 +18,7 @@ function HomePage() {
   const [loadingSpinner, setLoadingSpinner] = useState(false);
 
   //Hämta context för reviews
-  const { books, getBooks } = useReview();
+  const { books, getBooks } = useBook();
 
   const bookArticle: object = {
     display: "flex",
