@@ -31,6 +31,13 @@ export const ReviewProvider: React.FC<ImagesProviderProps> = ({ children }) => {
                 console.log(data)
                 setReviews(data.reviews);
 
+
+                //Hämtar bookTitleLista med titel och thumbnail utifrån review lista
+                const titleImageList = await getBookTitleImageList(data.reviews);
+
+                // Uppdatera state med alla boktitlar
+                setBookTitleImageList(titleImageList);
+
             } else {
                 setReviews([]);
             }
@@ -230,7 +237,7 @@ export const ReviewProvider: React.FC<ImagesProviderProps> = ({ children }) => {
             const like = { like: userReviewLike };
 
             const response = await fetch(`http://localhost:3000/review/${reviewId}/like`, {
-                method: "POST",
+                method: "PATCH",
                 headers: {
                     "Content-Type": "application/json",
                 },

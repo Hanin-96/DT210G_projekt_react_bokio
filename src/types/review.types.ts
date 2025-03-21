@@ -8,7 +8,8 @@ export interface Review {
     recommend: boolean,
     like: string[],
     userId: { _id: string; username: string },
-    bookId: string
+    bookId: string,
+    created: Date
 }
 
 export interface PostReview {

@@ -61,9 +61,10 @@ function HomePage() {
     setLoadingSpinner(false);
     const getLatestReviews = async () => {
       try {
-        if (reviews) {
-          await getReviews();
-        }
+
+        await getReviews();
+        reviews?.sort((a, b) => new Date(a.created).getTime() - new Date(b.created).getTime());
+
         setLoading(false);
 
       } catch (error) {
@@ -119,30 +120,6 @@ function HomePage() {
         */
       }
 
-      <div>
-        <h2>Senaste recensioner</h2>
-        {!loading && <div style={{ display: "flex", gap: "4rem" }}>
-
-          {
-            reviews && reviews.length > 0 ?
-              (
-                reviews.map((review: Review) => (
-                  <HomePageReviews
-                    homePageReviewProp={review}
-                    key={review._id}
-                    bookTitleImgProp={
-                      bookTitleImageList?.find(bookTitleImage => bookTitleImage.bookId === review.bookId) || { bookId: '', title: '', thumbnail: '' }
-                    }>
-                  </HomePageReviews>
-
-                ))
-              ) : <p>{errorReviews}</p>
-          }
-        </div>
-        }
-      </div>
-
-
       <div style={bookArticle}>
         {
           books && books.length > 0 ? (
@@ -159,6 +136,34 @@ function HomePage() {
             <p style={{ textAlign: "center", width: "100%" }}>{error}</p>
         }
       </div>
+      <div style={{ maxWidth: "100rem", width: "100%", margin: "0 auto" }}>
+        <h2 style={{ marginBottom: "2rem" }}>Senaste recensioner</h2>
+
+
+        {!loading && <div style={{ display: "flex", justifyContent: "flex-start", flexWrap: "wrap", gap:"2rem"}}>
+
+          {
+            reviews && reviews.length > 0 ?
+              (
+                reviews.slice(0, 4).map((review: Review) => (
+                  <HomePageReviews
+                    homePageReviewProp={review}
+                    key={review._id}
+                    bookTitleImgProp={
+                      bookTitleImageList?.find(bookTitleImage => bookTitleImage.bookId === review.bookId) || { bookId: '', title: '', thumbnail: '' }
+                    }>
+                  </HomePageReviews>
+
+                ))
+              ) : <p>{errorReviews}</p>
+          }
+        </div>
+        }
+
+      </div>
+
+
+
 
 
     </>

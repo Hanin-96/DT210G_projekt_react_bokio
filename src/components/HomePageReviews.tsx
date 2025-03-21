@@ -12,11 +12,21 @@ function HomeReviews({ homePageReviewProp, bookTitleImgProp }: { homePageReviewP
   const [loading, setLoading] = useState(false);
 
   const articleReview: object = {
-    maxWidth: "20rem", width: "100%", marginBottom: "2rem", backgroundColor: "#F8F5F2", color: "#1e1e1e", padding: "1rem", borderRadius: "1rem", fontSize: "1.6rem", boxShadow: "5px 5px 0px 0px #FF882D", maxHeight: "50rem", height: "100%"
+    maxWidth: "22rem",
+    width: "100%",
+    marginBottom: "2rem",
+    backgroundColor: "#F8F5F2",
+    color: "#1e1e1e",
+    padding: "1rem",
+    borderRadius: "1rem",
+    fontSize: "1.6rem",
+    boxShadow: "5px 5px 0px 0px #FF882D",
+    maxHeight: "30rem",
+    height: "100%"
   }
   return (
     <>
-      <article key={homePageReviewProp._id} style={{...articleReview, opacity: loading ? 0 : 1}}>
+      <article key={homePageReviewProp._id} style={{ ...articleReview, opacity: loading ? 0 : 1 }}>
         <h4>{bookTitleImgProp.title ? bookTitleImgProp.title : "Titel finns inte"}</h4>
         <p style={{ maxHeight: "10rem", height: "100%", overflow: "hidden" }}>{homePageReviewProp.reviewText}</p>
         <p> {[1, 2, 3, 4, 5].map((starValue) => (
