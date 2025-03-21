@@ -13,7 +13,7 @@ import { useBook } from "../context/BookContext";
 
 function BookPage() {
   //States
-  const [error, setError] = useState("");
+  const [error, setError] = useState("Det finns inga recensioner");
   const [loadingBook, setLoadingBook] = useState(true);
   const [loadingReviews, setLoadingReviews] = useState(true);
   const [isLoaded, setIsLoaded] = useState(false);
@@ -22,7 +22,7 @@ function BookPage() {
 
 
   //Context
-  const { reviews, getReviewsByBook, postReview, updateReview } = useReview();
+  const { reviews, getReviewsByBook, postReview, updateReview, bookTitleImageList } = useReview();
   const { oneBook, getBookById } = useBook();
 
   const { user } = useAuth();
@@ -139,9 +139,11 @@ function BookPage() {
                         <div>
                           <button onClick={() => setShowPutModal(true)}>Ändra</button>
                           {showPutModal && <PutModal putReview={{ reviewText: review.reviewText, rating: review.rating, status: review.status, recommend: review.recommend, userId: review.userId._id, bookId: review.bookId }}
-                            bookTitleProp={oneBook.title}
+                            bookTitleImgProp={
+                              bookTitleImageList?.find(bookTitleImage => bookTitleImage.bookId === review.bookId) || { bookId: '', title: '', thumbnail: ''}
+                            }
                             onCloseProp={async (updatedReview: PutReview) => {
-                              if (updatedReview && user) {
+                              if (updatedReview && updatedReview.bookId != "" && user) {
                                 await updateReview(review._id, user?._id, updatedReview, false);
                               }
                               setShowPutModal(false);
@@ -154,8 +156,9 @@ function BookPage() {
 
                     </article>
                   ))
-                ) :
+                ) : (
                   <p>{error}</p>
+                )
               }
             </div>
           }

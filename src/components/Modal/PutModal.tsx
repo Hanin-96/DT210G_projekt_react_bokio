@@ -2,9 +2,10 @@ import { useState } from "react";
 import { PutReview } from "../../types/review.types";
 import { Star, ThumbsDown, ThumbsUp, X } from "lucide-react";
 import ModalStyle from "../Modal/ModalStyle.module.css";
+import { BookTitleImage } from "../../types/book.types";
 
 
-function PutModal({ putReview, onCloseProp, bookTitleProp }: { putReview: PutReview, onCloseProp: (updatedReview: PutReview) => void, bookTitleProp: string }) {
+function PutModal({ putReview, onCloseProp, bookTitleImgProp }: { putReview: PutReview, onCloseProp: (updatedReview: PutReview) => void, bookTitleImgProp: BookTitleImage }) {
 
     const [formData, setFormData] = useState<PutReview>(putReview)
 
@@ -42,7 +43,11 @@ function PutModal({ putReview, onCloseProp, bookTitleProp }: { putReview: PutRev
                         userId: "",
                         bookId: ""
                     })} style={{ background: "none", color: "#1e1e1e" }}><X /></button>
-                    <h1 style={{ marginBottom: "1rem" }}>Ändra recension <span style={{ display: "block", textAlign: "center", width: "100%", margin: "0", maxWidth: "40rem", fontStyle: "italic" }}>{bookTitleProp}</span></h1>
+                    <h1 style={{ marginBottom: "1rem",fontSize:"3.2rem" }}>Ändra recension <span style={{ display: "block", textAlign: "center", width: "100%", margin: "0", maxWidth: "40rem", fontStyle: "italic", fontSize:"2.8rem" }}>{bookTitleImgProp.title}</span></h1>
+
+                    <div style={{textAlign:"center"}}>
+                        <img src={bookTitleImgProp.thumbnail} alt={bookTitleImgProp.title} style={{maxWidth:"10rem", width:"100%"}} />
+                    </div>
 
                     <form onSubmit={handleOnSubmit}>
                         <div className={ModalStyle.formBox}>

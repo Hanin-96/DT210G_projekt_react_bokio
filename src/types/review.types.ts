@@ -1,5 +1,5 @@
 import { User } from "./auth.types";
-import { Book } from "./book.types";
+import { Book, BookTitleImage } from "./book.types";
 export interface Review {
     _id: string,
     reviewText: string,
@@ -33,11 +33,11 @@ export interface PutReview {
 
 export interface ReviewContextType {
     reviews: Review[] | null,
-    bookTitles: string[] | null,
+    bookTitleImageList: BookTitleImage[] | null,
     getReviews: () => void,
     getReviewsById: (_id: string) => void,
     getReviewsByBook: (bookId: string) => void,
     postReview: (newReview: PostReview) => void,
-    deleteReview:(reviewId: string, userId: string) => void,
-    updateReview:(reviewId: string, userId: string, putReview: PutReview, shouldUpdateById: boolean) => void
+    deleteReview: (reviewId: string, userId: string) => void,
+    updateReview: (reviewId: string, userId: string, putReview: PutReview, shouldUpdateById: boolean) => void
 }

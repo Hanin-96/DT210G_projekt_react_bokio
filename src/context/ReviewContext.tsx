@@ -1,6 +1,7 @@
 import { createContext, useState, useContext, ReactNode } from "react";
 import { PostReview, PutReview, Review } from "../types/review.types";
 import { ReviewContextType } from "../types/review.types";
+import { BookTitleImage } from "../types/book.types";
 
 
 const ReviewContext = createContext<ReviewContextType | null>(null);
@@ -12,7 +13,7 @@ interface ImagesProviderProps {
 export const ReviewProvider: React.FC<ImagesProviderProps> = ({ children }) => {
     const [reviews, setReviews] = useState<Review[]>([]);
 
-    const [bookTitles, setBookTitles] = useState<string[]>([]);
+    const [bookTitleImageList, setBookTitleImageList] = useState<BookTitleImage[]>([]);
 
     //Hämta alla reviews publikt
     const getReviews = async (): Promise<void> => {
@@ -61,11 +62,11 @@ export const ReviewProvider: React.FC<ImagesProviderProps> = ({ children }) => {
             console.log("Recensioner:", data);
             setReviews(data.reviewsByUserId);
 
-            //Extrahera bookId från recensionerna
-            const titles = await getBookTitles(data.reviewsByUserId);
+            //Hämtar bookTitleLista med titel och thumbnail utifrån review lista
+            const titleImageList = await getBookTitleImageList(data.reviewsByUserId);
 
             // Uppdatera state med alla boktitlar
-            setBookTitles(titles);
+            setBookTitleImageList(titleImageList);
 
         } catch (error) {
             console.error("Det gick inte att hämta recensioner", error);
@@ -74,11 +75,13 @@ export const ReviewProvider: React.FC<ImagesProviderProps> = ({ children }) => {
     };
 
     //Hämta boktitlar
-    async function getBookTitles(reviewList: any) {
-        const bookIds = reviewList.map((review: Review) => review.bookId);
+    async function getBookTitleImageList(reviewList: Review[]) {
+        //Hämtar endast unika bookIds
+        const bookIds = Array.from(new Set(reviewList.map((review: Review) => review.bookId)));
 
-        //Hämta boktitlar för varje bokId
-        const titles = await Promise.all(bookIds.map(async (id: string) => {
+        console.log("Review bookIds:", bookIds);
+        //Hämta boktitlar för varje bokId samtidigt, returnerar lista när alla anrop har gjorts
+        const titlesImages = await Promise.all(bookIds.map(async (id: string) => {
             try {
                 const bookResponse = await fetch(`http://localhost:3000/book/${id}`, {
                     method: "GET",
@@ -88,19 +91,24 @@ export const ReviewProvider: React.FC<ImagesProviderProps> = ({ children }) => {
                     credentials: "include"
                 });
 
-                if (!bookResponse.ok) return "Titel ej hittad";
+                if (!bookResponse.ok) return { bookId: "", title: "", thumbnail: "" };
 
                 const bookData = await bookResponse.json();
-                console.log("bookData:", bookData)
-                return bookData.title || "Titel ej hittad";
+                const bookTitleImage = {
+                    bookId: bookData.id,
+                    title: bookData.title,
+                    thumbnail: bookData.thumbnail
+                }
+                console.log("bookData:", bookTitleImage)
+                return bookTitleImage;
+
             } catch (error) {
                 console.error("Fel vid hämtning av bok:", error);
-                return "Titel ej hittad";
+                return { bookId: "", title: "", thumbnail: "" };
             }
         }
         ));
-        console.log("titles:", titles)
-        return titles;
+        return titlesImages;
     }
 
     const getReviewsByBook = async (bookId: string): Promise<void> => {
@@ -119,11 +127,12 @@ export const ReviewProvider: React.FC<ImagesProviderProps> = ({ children }) => {
                 const data = await response.json();
                 console.log("getReviewsByBook:", data)
                 setReviews(data.reviews);
-                //Extrahera bookId från recensionerna
-                //const titles = await getBookTitles(data.reviews);
-                // Uppdatera state med alla boktitlar
-                //setBookTitles(titles);
 
+                //Hämtar bookTitleLista med titel och thumbnail utifrån review lista
+                const titleImageList = await getBookTitleImageList(data.reviews);
+
+                // Uppdatera state med alla boktitlar
+                setBookTitleImageList(titleImageList);
 
             } else {
                 setReviews([]);
@@ -171,7 +180,7 @@ export const ReviewProvider: React.FC<ImagesProviderProps> = ({ children }) => {
 
             if (response.ok) {
                 await getReviewsById(userId);
-                
+
             }
 
         } catch (error) {
@@ -179,11 +188,11 @@ export const ReviewProvider: React.FC<ImagesProviderProps> = ({ children }) => {
         }
     }
 
-    const updateReview = async(reviewId: string, userId: string, putReview: PutReview, shouldUpdateById: boolean): Promise<void> => {
+    const updateReview = async (reviewId: string, userId: string, putReview: PutReview, shouldUpdateById: boolean): Promise<void> => {
         try {
 
             putReview.userId = userId;
-            
+
             const response = await fetch(`http://localhost:3000/review/${reviewId}`, {
                 method: "PUT",
                 headers: {
@@ -196,7 +205,7 @@ export const ReviewProvider: React.FC<ImagesProviderProps> = ({ children }) => {
 
 
             if (response.ok) {
-                if(shouldUpdateById) {
+                if (shouldUpdateById) {
                     await getReviewsById(userId);
                 } else {
                     await getReviewsByBook(putReview.bookId);
@@ -213,7 +222,7 @@ export const ReviewProvider: React.FC<ImagesProviderProps> = ({ children }) => {
 
 
     return (
-        <ReviewContext.Provider value={{ reviews, bookTitles, getReviews, getReviewsById, getReviewsByBook, postReview, deleteReview, updateReview }}>
+        <ReviewContext.Provider value={{ reviews, bookTitleImageList, getReviews, getReviewsById, getReviewsByBook, postReview, deleteReview, updateReview }}>
             {children}
         </ReviewContext.Provider>
     )

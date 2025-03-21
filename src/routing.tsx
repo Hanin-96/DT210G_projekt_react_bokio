@@ -7,6 +7,7 @@ import MyPage from "./pages/MyPage";
 import ProtectedRoute from "./context/ProtectedRoute";
 import { ReviewProvider } from "./context/ReviewContext";
 import BookPage from "./pages/BookPage";
+import { BookProvider } from "./context/BookContext";
 
 
 const router = createBrowserRouter([
@@ -15,9 +16,11 @@ const router = createBrowserRouter([
         path: "/",
         element:
             (
-                <ReviewProvider>
-                <Layout />
-                </ReviewProvider>
+                <BookProvider>
+                    <ReviewProvider>
+                        <Layout />
+                    </ReviewProvider>
+                </BookProvider>
             ),
         children: [
             {
