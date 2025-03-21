@@ -1,13 +1,15 @@
 import { Review, PutReview } from "../types/review.types";
 import MyPageReviewStyle from "../components/MypageReviewStyle.module.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { useReview } from "../context/ReviewContext";
-import { Heart, Star, ThumbsDown, ThumbsUp } from "lucide-react";
+import { ChevronRight, CircleX, Heart, Pencil, Star, ThumbsDown, ThumbsUp } from "lucide-react";
 import { Link } from "react-router-dom";
 import PutModal from "./Modal/PutModal";
 import DeleteModal from "./Modal/DeleteModal";
 import { BookTitleImage } from "../types/book.types";
+import BookPageStyle from "../pages/BookPageStyle.module.css";
+
 
 
 function MyPageReview({ myPageReviewProp, bookTitleImgProp }: { myPageReviewProp: Review, bookTitleImgProp: BookTitleImage }) {
@@ -17,11 +19,14 @@ function MyPageReview({ myPageReviewProp, bookTitleImgProp }: { myPageReviewProp
     //Modal state för uppdatera
     const [showPutModal, setShowPutModal] = useState(false);
 
+    const [likes, setLikes] = useState(myPageReviewProp.like);
+
     //Context
     const { user } = useAuth();
-    const { deleteReview, updateReview } = useReview();
-    const [loading, setLoading] = useState(false);
+    const { deleteReview, updateReview, likeReview } = useReview();
 
+    //loading state
+    const [loading, setLoading] = useState(false);
 
     const articleStyle: object = {
         maxWidth: "30rem",
@@ -50,15 +55,14 @@ function MyPageReview({ myPageReviewProp, bookTitleImgProp }: { myPageReviewProp
                 <p> {[1, 2, 3, 4, 5].map((starValue) => (
                     <Star key={starValue} fill={myPageReviewProp.rating >= starValue ? "#FF882D" : "none"} stroke="#1e1e1e" />
                 ))}</p>
-                <p>Rekommendation: {myPageReviewProp.recommend ? <ThumbsUp /> : <ThumbsDown />}</p>
-                <p>Likes: {myPageReviewProp.like} <Heart /></p>
-                <p>userId:{myPageReviewProp.userId._id}</p>
+                <p style={{ display: "flex", alignItems: "center" }}>Rekommendation: {myPageReviewProp.recommend ? <ThumbsUp /> : <ThumbsDown />}</p>
 
-                <div>
 
-                    <Link to={`/book/${myPageReviewProp.bookId}`}>Se bok</Link>
+                <div style={{ marginTop: "1.5rem" }}>
 
-                    <button onClick={() => setShowPutModal(true)}>Ändra</button>
+                    <Link to={`/book/${myPageReviewProp.bookId}`} className={BookPageStyle.btnBookLink}>Se bok <ChevronRight className={BookPageStyle.chevron} /></Link>
+
+                    <button onClick={() => setShowPutModal(true)} className={BookPageStyle.btnUpdate}>Ändra <Pencil stroke="#1e1e1e" className={BookPageStyle.pencil} /></button>
                     {showPutModal &&
 
                         <PutModal putReview={{ reviewText: myPageReviewProp.reviewText, rating: myPageReviewProp.rating, status: myPageReviewProp.status, recommend: myPageReviewProp.recommend, userId: myPageReviewProp.userId._id, bookId: myPageReviewProp.bookId }}
@@ -75,13 +79,13 @@ function MyPageReview({ myPageReviewProp, bookTitleImgProp }: { myPageReviewProp
 
 
 
-                    <button onClick={() => setShowDeleteModal(true)}>Ta bort</button>
+                    <button onClick={() => setShowDeleteModal(true)} className={BookPageStyle.btnBookDelete}>Ta bort <CircleX className={BookPageStyle.circleX} /></button>
                     {showDeleteModal && <DeleteModal onCloseProp={
                         //Om användare klickar på ta bort i modalen då blir confirmDelete true
                         (confirmDelete: boolean) => {
                             if (confirmDelete && user) {
                                 //Delete funktion ska kallas här
-                                deleteReview(myPageReviewProp._id, user?._id)
+                                deleteReview(myPageReviewProp._id, user?._id, "")
                             }
                             setShowDeleteModal(false)
                         }

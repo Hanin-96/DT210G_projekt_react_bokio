@@ -3,10 +3,13 @@ import { Search } from "lucide-react";
 import HomeStyle from "../pages/HomeStyle.module.css";
 import ModalStyle from "../components/Modal/ModalStyle.module.css";
 import { Book } from "../types/book.types";
+import { Review } from "../types/review.types";
 import bookImg from "../assets/bookImg.png";
 import bookImgLarge from "../assets/bookImgLarge.png";
 import { Link } from 'react-router-dom';
 import { useBook } from "../context/BookContext";
+import { useReview } from "../context/ReviewContext";
+import HomePageReviews from "../components/HomePageReviews";
 
 function HomePage() {
 
@@ -14,11 +17,20 @@ function HomePage() {
 
   const [searchQuery, setSearchQuery] = useState(false);
   const [error, setError] = useState("");
+  const [errorReviews, setErrorReviews] = useState("");
+
   //Loading
   const [loadingSpinner, setLoadingSpinner] = useState(false);
 
+  //loading state
+  const [loading, setLoading] = useState(false);
+
   //Hämta context för reviews
+  const { reviews, getReviews, bookTitleImageList } = useReview();
+
+  //Hämta context för böcker
   const { books, getBooks } = useBook();
+
 
   const bookArticle: object = {
     display: "flex",
@@ -41,14 +53,27 @@ function HomePage() {
   }
 
   useEffect(() => {
-
     if (books && books.length === 0 && searchQuery) {
       setError("Det finns inga böcker under den titel");
     } else {
       setError("");
     }
-
     setLoadingSpinner(false);
+    const getLatestReviews = async () => {
+      try {
+        if (reviews) {
+          await getReviews();
+        }
+        setLoading(false);
+
+      } catch (error) {
+        setLoadingSpinner(false);
+        setLoading(false);
+        setErrorReviews("Det gick inte att hämta senaste recensioner");
+      }
+    }
+    getLatestReviews();
+
   }, [books, searchQuery]);
 
 
@@ -86,11 +111,36 @@ function HomePage() {
 
 
       {
+        /*
         !searchQuery &&
-        <div style={{ textAlign: "center",maxWidth:"20rem", width:"100%", margin: "10rem auto 20rem auto" }}>
-          <img src={bookImgLarge} className={HomeStyle.bookHomepage} alt="Bokio" style={{maxWidth:"20rem", width:"100%", textAlign:"center"}} />
+        <div style={{ textAlign: "center", maxWidth: "20rem", width: "100%", margin: "10rem auto 20rem auto" }}>
+          <img src={bookImgLarge} className={HomeStyle.bookHomepage} alt="Bokio" style={{ maxWidth: "20rem", width: "100%", textAlign: "center" }} />
         </div>
+        */
       }
+
+      <div>
+        <h2>Senaste recensioner</h2>
+        {!loading && <div style={{ display: "flex", gap: "4rem" }}>
+
+          {
+            reviews && reviews.length > 0 ?
+              (
+                reviews.map((review: Review) => (
+                  <HomePageReviews
+                    homePageReviewProp={review}
+                    key={review._id}
+                    bookTitleImgProp={
+                      bookTitleImageList?.find(bookTitleImage => bookTitleImage.bookId === review.bookId) || { bookId: '', title: '', thumbnail: '' }
+                    }>
+                  </HomePageReviews>
+
+                ))
+              ) : <p>{errorReviews}</p>
+          }
+        </div>
+        }
+      </div>
 
 
       <div style={bookArticle}>

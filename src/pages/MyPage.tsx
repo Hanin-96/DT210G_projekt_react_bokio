@@ -44,7 +44,7 @@ function MyPage() {
                 {
                     loading && <p style={{ color: "white", margin: "2rem auto 2rem auto" }}>Laddar in recensioner...</p>
                 }
-                <div style={{ display: "flex", flexDirection: "row", flexWrap: "wrap", gap: "4rem", justifyContent: "left", marginTop: "4rem" }}>
+                {!loading && <div style={{ display: "flex", flexDirection: "row", flexWrap: "wrap", gap: "4rem", justifyContent: "left", marginTop: "4rem" }}>
 
                     {
                         reviews && reviews?.length > 0 ? (
@@ -60,6 +60,7 @@ function MyPage() {
                             <p>{error}</p>
                     }
                 </div>
+                }
 
 
 

@@ -1,5 +1,5 @@
 import { createContext, useState, useContext, ReactNode } from "react";
-import { PostReview, PutReview, Review } from "../types/review.types";
+import { Like, PostReview, PutReview, Review } from "../types/review.types";
 import { ReviewContextType } from "../types/review.types";
 import { BookTitleImage } from "../types/book.types";
 
@@ -168,7 +168,7 @@ export const ReviewProvider: React.FC<ImagesProviderProps> = ({ children }) => {
         }
     }
 
-    const deleteReview = async (reviewId: string, userId: string): Promise<void> => {
+    const deleteReview = async (reviewId: string, userId: string, bookId: string): Promise<void> => {
         try {
             const response = await fetch(`http://localhost:3000/review/${reviewId}`, {
                 method: "DELETE",
@@ -178,8 +178,15 @@ export const ReviewProvider: React.FC<ImagesProviderProps> = ({ children }) => {
                 credentials: "include"
             })
 
+
             if (response.ok) {
-                await getReviewsById(userId);
+                if (userId != "") {
+                    await getReviewsById(userId);
+                }
+
+                if (bookId != "") {
+                    await getReviewsByBook(bookId);
+                }
 
             }
 
@@ -216,13 +223,41 @@ export const ReviewProvider: React.FC<ImagesProviderProps> = ({ children }) => {
             console.error("Det gick inte att upddatera recensionen:", error);
         }
 
+    }
+
+    const likeReview = async (userReviewLike: boolean, reviewId: string): Promise<void> => {
+        try {
+            const like = { like: userReviewLike };
+
+            const response = await fetch(`http://localhost:3000/review/${reviewId}/like`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(like),
+                credentials: "include"
+            })
+            console.log("userReviewLike:", like)
+
+
+            if (response.ok) {
+                console.log("response:", response);
+                const data = await response.json();
+                await getReviewsByBook(data.review.bookId);
+            }
+
+
+        } catch (error) {
+            console.error("Det gick inte att gilla en recension:", error);
+
+        }
 
     }
 
 
 
     return (
-        <ReviewContext.Provider value={{ reviews, bookTitleImageList, getReviews, getReviewsById, getReviewsByBook, postReview, deleteReview, updateReview }}>
+        <ReviewContext.Provider value={{ reviews, bookTitleImageList, getReviews, getReviewsById, getReviewsByBook, postReview, deleteReview, updateReview, likeReview }}>
             {children}
         </ReviewContext.Provider>
     )

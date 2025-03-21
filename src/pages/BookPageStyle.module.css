@@ -17,10 +17,84 @@
     border-radius: 1rem;
     margin-bottom: 2rem;
     border: none;
+    box-shadow: 0 2px 5px -1px rgb(30, 30, 30, 0.2);
 }
 
 .btnReview:hover {
-    background-color: #F8F5F2;
+    background-color: white;
     color: #1e1e1e;
 }
 
+.btnUpdate {
+    width: 100%;
+    padding: 1rem;
+    cursor: pointer;
+    background-color: #FF882D;
+    border: none;
+    border-radius: 1rem;
+    margin-top: 1.5rem;
+    border: none;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    justify-content: center;
+    gap: 0.5rem;
+    box-shadow: 0 2px 5px -1px rgb(30, 30, 30, 0.2);
+}
+
+.btnUpdate:hover {
+    background-color: #1e1e1e;
+    color: white;
+}
+
+.btnUpdate:hover .pencil,
+.btnUpdate:hover .chevron,
+.btnUpdate:hover .circleX {
+    stroke: white;
+}
+
+.btnBookLink {
+    text-decoration: none;
+    background-color: white;
+    box-shadow: 0 2px 5px -1px rgb(30, 30, 30, 0.2);
+    color: #1e1e1e;
+    width: 100%;
+    padding: 1rem;
+    cursor: pointer;
+    border: none;
+    border-radius: 1rem;
+    margin-top: 1.5rem;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    justify-content: center;
+}
+
+.btnBookLink:hover {
+    background-color: #1e1e1e;
+    color: white;
+
+}
+
+.btnBookDelete {
+    text-decoration: none;
+    background-color: #C6C6C6;
+    color: #1e1e1e;
+    width: 100%;
+    padding: 1rem;
+    cursor: pointer;
+    border: none;
+    border-radius: 1rem;
+    margin-top: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    width: 100%;
+    justify-content: center;
+    box-shadow: 0 2px 5px -1px rgb(30, 30, 30, 0.2);
+}
+
+.btnBookDelete:hover {
+    color: white;
+    background-color: #1e1e1e;
+}

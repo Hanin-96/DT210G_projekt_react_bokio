@@ -2,12 +2,13 @@ import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom"
 import { useReview } from "../context/ReviewContext";
 import { PostReview, PutReview, Review } from "../types/review.types";
-import { Heart, SquarePen, Star, ThumbsDown, ThumbsUp } from "lucide-react";
+import { CircleX, Heart, Pencil, SquarePen, Star, ThumbsDown, ThumbsUp } from "lucide-react";
 import bookImg from "../assets/bookImg.png";
 import BookPageStyle from "../pages/BookPageStyle.module.css";
 import { useAuth } from "../context/AuthContext";
 import PostModal from "../components/Modal/PostModal";
 import PutModal from "../components/Modal/PutModal";
+import DeleteModal from "../components/Modal/DeleteModal";
 import { useBook } from "../context/BookContext";
 
 
@@ -17,12 +18,15 @@ function BookPage() {
   const [loadingBook, setLoadingBook] = useState(true);
   const [loadingReviews, setLoadingReviews] = useState(true);
   const [isLoaded, setIsLoaded] = useState(false);
+
+  //Modaler
   const [showModal, setShowModal] = useState(false);
   const [showPutModal, setShowPutModal] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
 
 
   //Context
-  const { reviews, getReviewsByBook, postReview, updateReview, bookTitleImageList } = useReview();
+  const { reviews, getReviewsByBook, postReview, updateReview, deleteReview, bookTitleImageList, likeReview } = useReview();
   const { oneBook, getBookById } = useBook();
 
   const { user } = useAuth();
@@ -54,6 +58,22 @@ function BookPage() {
     getAllReviews();
   }, []);
 
+  const checkIfUserLike = (review: Review): boolean => {
+    if (user && review) {
+
+      if(review.like.length > 0) {
+        const userLikes = review.like.includes(user._id);
+        console.log("userLikes:", userLikes)
+        return userLikes;
+      }
+
+    }
+    return false;
+
+  }
+
+
+
   const reviewStyle: object = {
     maxWidth: "40rem", width: "100%", marginBottom: "2rem", backgroundColor: "#F8F5F2", color: "#1e1e1e", padding: "1rem", borderRadius: "1rem", fontSize: "1.6rem", boxShadow: "5px 5px 0px 0px #FF882D"
   }
@@ -62,7 +82,7 @@ function BookPage() {
       <div className="bookReviewContainer" style={{ maxWidth: "60rem", width: "100%", margin: "2rem auto" }}>
 
         {
-          loadingBook && <p style={{ color: "white", maxWidth: "60rem", width: "100%", margin: "2rem auto 2rem auto" }}>Laddar in boken...</p>
+          loadingBook && <p style={{ color: "white", width: "100%", margin: "2rem auto 2rem auto" }}>Laddar in boken...</p>
         }
 
         {isLoaded &&
@@ -71,8 +91,9 @@ function BookPage() {
               oneBook ? (
                 <div style={{ margin: "0 auto" }}>
                   <h1>{oneBook.title}</h1>
+                  <p style={{ margin: "1rem 0 1rem 0", fontStyle: "italic" }}>{oneBook.authors}</p>
 
-                  <article style={{ maxWidth: "50rem", width: "100%" }}>
+                  <article style={{ maxWidth: "60rem", width: "100%" }}>
                     <div style={{ display: "flex", gap: "5rem", alignItems: "center" }}>
                       <p dangerouslySetInnerHTML={{ __html: oneBook.description }} />
                       <img src={oneBook?.thumbnail || bookImg} alt={oneBook.title} style={{ maxWidth: "15rem", width: "100%", height: "100%", display: "block", maxHeight: "20rem", objectFit: "cover", margin: "1rem auto 0 auto" }} />
@@ -131,16 +152,24 @@ function BookPage() {
                           <Star key={starValue} fill={review.rating >= starValue ? "#FF882D" : "none"} stroke="#1e1e1e" />
                         ))}
                       </div>
-                      <p>Rekommendation: {review.recommend ? <ThumbsUp /> : <ThumbsDown />}</p>
-                      <p>Likes: {review.like} <Heart /></p>
+                      <p style={{ display: "flex", alignItems: "center" }}>Rekommendation: {review.recommend ? <ThumbsUp /> : <ThumbsDown />}</p>
+                      <p>Likes: {review.like.length} <Heart /></p>
+                      {user && user._id ? (
+                        <div>
+                          <button onClick={() => likeReview(!checkIfUserLike(review), review._id)}>Likes: {review.like.length} <Heart fill={checkIfUserLike(review) ? "#FF882D" : "none"}/></button>
+                        </div>
+                      ) : (
+                        <p>Likes: {review.like.length || 0} <Heart /></p>
+                      )
+                      }
 
                       {
                         review.userId._id == user?._id &&
                         <div>
-                          <button onClick={() => setShowPutModal(true)}>Ändra</button>
+                          <button onClick={() => setShowPutModal(true)} className={BookPageStyle.btnUpdate}>Ändra  <Pencil stroke="#1e1e1e" className={BookPageStyle.pencil} /></button>
                           {showPutModal && <PutModal putReview={{ reviewText: review.reviewText, rating: review.rating, status: review.status, recommend: review.recommend, userId: review.userId._id, bookId: review.bookId }}
                             bookTitleImgProp={
-                              bookTitleImageList?.find(bookTitleImage => bookTitleImage.bookId === review.bookId) || { bookId: '', title: '', thumbnail: ''}
+                              bookTitleImageList?.find(bookTitleImage => bookTitleImage.bookId === review.bookId) || { bookId: '', title: '', thumbnail: '' }
                             }
                             onCloseProp={async (updatedReview: PutReview) => {
                               if (updatedReview && updatedReview.bookId != "" && user) {
@@ -150,6 +179,22 @@ function BookPage() {
 
                             }}
                           />}
+
+                          <button onClick={() => setShowDeleteModal(true)} className={BookPageStyle.btnBookDelete}>Ta bort <CircleX className={BookPageStyle.circleX} /></button>
+                          {showDeleteModal && <DeleteModal
+                            onCloseProp={
+                              //Om användare klickar på ta bort i modalen då blir confirmDelete true
+                              (confirmDelete: boolean) => {
+                                if (confirmDelete && user && bookId) {
+                                  //Delete funktion ska kallas här
+                                  deleteReview(review._id, "", bookId)
+
+                                }
+                                setShowDeleteModal(false)
+
+
+                              }
+                            } />}
                         </div>
                       }
 
