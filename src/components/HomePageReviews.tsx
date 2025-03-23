@@ -1,8 +1,8 @@
-import { ChevronRight, Star, ThumbsDown, ThumbsUp } from "lucide-react";
+import { ChevronRight, Heart, Star, ThumbsDown, ThumbsUp } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Review } from "../types/review.types";
 import { BookTitleImage } from "../types/book.types";
-import BookPageStyle from "../pages/BookPageStyle.module.css";
+import BookPageStyle from "../pages/BookPage/BookPageStyle.module.css";
 
 
 function HomeReviews({ homePageReviewProp, bookTitleImgProp }: { homePageReviewProp: Review, bookTitleImgProp: BookTitleImage }) {
@@ -40,6 +40,7 @@ function HomeReviews({ homePageReviewProp, bookTitleImgProp }: { homePageReviewP
           <Star key={starValue} fill={homePageReviewProp.rating >= starValue ? "#FF882D" : "none"} stroke="#1e1e1e" />
         ))}</p>
         <p style={{ display: "flex", alignItems: "center" }}>Rekommendation: {homePageReviewProp.recommend ? <ThumbsUp /> : <ThumbsDown />}</p>
+        <p  style={{ display: "flex", flexDirection: "row", alignItems: "center", gap:"0.5rem"}}>{homePageReviewProp.like.length || 0} <Heart /></p>
 
         <Link to={`/book/${homePageReviewProp.bookId}`} className={BookPageStyle.btnBookLink}>Se bok <ChevronRight className={BookPageStyle.chevron} /></Link>
       </article>

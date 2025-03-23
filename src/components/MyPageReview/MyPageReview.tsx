@@ -1,14 +1,14 @@
 import { Review, PutReview } from "../../types/review.types";
-import MyPageReviewStyle from "../components/MypageReviewStyle.module.css";
+import MyPageReviewStyle from "../MyPageReview/MypageReviewStyle.module.css";
 import { useState } from "react";
 import { useAuth } from "../../context/AuthContext";
 import { useReview } from "../../context/ReviewContext";
-import { ChevronRight, CircleX, Pencil, Star, ThumbsDown, ThumbsUp } from "lucide-react";
+import { ChevronRight, CircleX, Heart, Pencil, Star, ThumbsDown, ThumbsUp } from "lucide-react";
 import { Link } from "react-router-dom";
 import PutModal from "../Modal/PutModal";
 import DeleteModal from "../Modal/DeleteModal";
 import { BookTitleImage } from "../../types/book.types";
-import BookPageStyle from "../pages/BookPageStyle.module.css";
+import BookPageStyle from "../../pages/BookPage/BookPageStyle.module.css";
 
 
 
@@ -58,6 +58,8 @@ function MyPageReview({ myPageReviewProp, bookTitleImgProp }: { myPageReviewProp
                     <Star key={starValue} fill={myPageReviewProp.rating >= starValue ? "#FF882D" : "none"} stroke="#1e1e1e" />
                 ))}</p>
                 <p style={{ display: "flex", alignItems: "center" }}>Rekommendation: {myPageReviewProp.recommend ? <ThumbsUp /> : <ThumbsDown />}</p>
+
+                <p>{myPageReviewProp.like.length || 0} <Heart /></p>
 
                 <div style={{ marginTop: "1.5rem" }}>
 

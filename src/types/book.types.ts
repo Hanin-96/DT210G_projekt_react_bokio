@@ -5,7 +5,8 @@ export interface Book {
     title: string,
     authors: string[],
     description: string,
-    thumbnail: string
+    thumbnail: string,
+    pageCount: number
 }
 
 export interface BookTitleImage {
@@ -19,7 +20,9 @@ export interface OneBook {
     title: string,
     authors: string[],
     description: string,
-    thumbnail: string
+    thumbnail: string,
+    pageCount: number
+
 }
 
 export interface BookContextType {

@@ -3,8 +3,8 @@ import { Link, useParams } from "react-router-dom"
 import { useReview } from "../../context/ReviewContext";
 import { PostReview, PutReview, Review } from "../../types/review.types";
 import { CircleX, Heart, Pencil, SquarePen, Star, ThumbsDown, ThumbsUp } from "lucide-react";
-import bookImg from "../assets/bookImg.png";
-import BookPageStyle from "../pages/BookPageStyle.module.css";
+import bookImg from "../../assets/bookImg.png";
+import BookPageStyle from "../BookPage/BookPageStyle.module.css";
 import { useAuth } from "../../context/AuthContext";
 import PostModal from "../../components/Modal/PostModal";
 import PutModal from "../../components/Modal/PutModal";
@@ -168,12 +168,10 @@ function BookPage() {
                       <p style={{ display: "flex", alignItems: "center" }}>Rekommendation: {review.recommend ? <ThumbsUp /> : <ThumbsDown />}</p>
                       {user && user._id ? (
                         <div>
-                          <span style={{ margin: "0" }}>Likes: </span>
-
                           <button style={{ display: "flex", flexDirection: "row", alignItems: "center", border: "none", boxShadow: "none", backgroundColor: "unset", cursor: "pointer" }} onClick={() => likeReview(!checkIfUserLike(review), review._id)}>{review.like.length > 0 ? review.like.length : ""} <Heart fill={checkIfUserLike(review) ? "#FF882D" : "none"} /></button>
                         </div>
                       ) : (
-                        <p>Likes: {review.like.length || 0} <Heart /></p>
+                        <p>{review.like.length || 0} <Heart /></p>
                       )
                       }
                       <p style={{ fontSize: "1.4rem" }}>{new Date(review.created).toLocaleString()}</p>

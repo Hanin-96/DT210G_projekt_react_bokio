@@ -16,6 +16,21 @@
     border-radius: 1rem;
 }
 
+.bookArticle {
+    transition: all ease 0.3s;
+    background-color: rgb(248, 245, 242);
+    padding: 1rem;
+    border-radius: 1rem;
+    height: 20rem;
+    width: 100%;
+    max-width: 30rem;
+}
+
+.bookArticle:hover {
+    transform: scale(105%);
+    background-color: rgb(255, 136, 45);
+}
+
 
 
 @keyframes loadingAnim {
