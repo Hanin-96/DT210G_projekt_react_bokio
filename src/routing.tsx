@@ -1,4 +1,4 @@
-import { createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter, Navigate } from "react-router-dom";
 import Layout from "./components/Layout";
 import HomePage from "./pages/HomePage/HomePage";
 import RegisterPage from "./pages/RegisterLogin/RegisterPage";
@@ -23,6 +23,10 @@ const router = createBrowserRouter([
                 </BookProvider>
             ),
         children: [
+            {
+                path: "*",
+                element: <Navigate to="/" replace />
+            },
             {
                 path: "/",
                 element:
