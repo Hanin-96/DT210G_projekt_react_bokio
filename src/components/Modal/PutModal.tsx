@@ -38,12 +38,7 @@ function PutModal({ putReview, onCloseProp, bookTitleImgProp }: { putReview: Put
 
             <div className={ModalStyle.pageBody}>
                 <div className={ModalStyle.textBoxStyle}>
-                    <div style={{
-                        maxHeight: "40rem",
-                        height: "100%",
-                        overflowY: "scroll",
-                        padding:"1rem"
-                    }}>
+                    <div className={ModalStyle.textBoxWrap}>
                         <button className={ModalStyle.btnCancel} onClick={() => onCloseProp({
                             reviewText: "", rating: 1, status: "", recommend: false,
                             userId: "",

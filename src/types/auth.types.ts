@@ -35,7 +35,7 @@ export interface ProtectedRouteResponse {
 
 export interface AuthContextType {
     user: User | null,
-    login: (credentials: LoginCredentials) => Promise<void>;
-    register: (credentials: RegisterCredentials) => Promise<void>
-    logout: () => void;
+    login: (credentials: LoginCredentials) => Promise<void>,
+    register: (credentials: RegisterCredentials) => Promise<void>,
+    logout: () => void,
 }

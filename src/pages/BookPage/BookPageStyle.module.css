@@ -98,3 +98,19 @@
     color: white;
     background-color: #1e1e1e;
 }
+
+@media all and (max-width: 650px) {
+    .reviewArticle article:nth-child(2n) {
+        margin-left: 5rem;
+    }
+}
+@media all and (max-width:490px) {
+    .bookArticle {
+        flex-direction: column;
+    }
+
+    .reviewArticle article:nth-child(2n) {
+        margin-left: 0;
+    }
+    
+}

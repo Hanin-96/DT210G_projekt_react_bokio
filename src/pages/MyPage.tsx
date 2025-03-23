@@ -28,7 +28,7 @@ function MyPage() {
             }
         };
         getAllReviews();
-    }, []);
+    }, [user]);
 
 
     return (

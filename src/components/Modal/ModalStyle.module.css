@@ -25,6 +25,10 @@
     width: 100%;
     border-radius: 1rem;
     box-shadow: 0 2px 5px -1px rgb(30, 30, 30, 0.5);
+    max-height: 40rem;
+    height: 100%;
+    overflow-y: scroll;
+    padding: 1rem;
 }
 
 .textBoxStyle button {
@@ -141,11 +145,49 @@ input[type="radio"] {
     margin: 0 auto;
 }
 
+.textBoxWrap {
+    max-height: 40rem;
+    height: 100%;
+    overflow-y: scroll;
+    padding: 1rem;
+}
+
 @keyframes loadingAnim {
     0% {
-      transform: rotate(0deg);
+        transform: rotate(0deg);
     }
+
     100% {
-      transform: rotate(360deg);
+        transform: rotate(360deg);
     }
-  }
+}
+
+@media all and (max-width:490px) {
+
+    .pageBody,
+    .textBoxStyle,
+    .textBoxWrap {
+        height: 100%;
+        max-height: 100%;
+    }
+
+    .textBoxStyle div {
+        overflow-y: visible;
+    }
+
+
+    .textBoxWrap {
+        max-height: unset;
+    }
+
+    .recommendWrap {
+        justify-content: space-between;
+        gap: 1rem;
+    }
+
+    .formBox select {
+        width: 100%;
+        margin: 0;
+    }
+
+}

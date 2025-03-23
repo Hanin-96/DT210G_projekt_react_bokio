@@ -241,6 +241,7 @@ export const ReviewProvider: React.FC<ImagesProviderProps> = ({ children }) => {
 
     }
 
+    //Gilla markering av reviews
     const likeReview = async (userReviewLike: boolean, reviewId: string): Promise<void> => {
         try {
             const like = { like: userReviewLike };

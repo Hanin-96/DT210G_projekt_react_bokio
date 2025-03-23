@@ -105,7 +105,7 @@ function BookPage() {
                     : "Okänd författare"}</p>
 
                   <article style={{ maxWidth: "60rem", width: "100%" }}>
-                    <div style={{ display: "flex", gap: "5rem", alignItems: "center" }}>
+                    <div style={{ display: "flex", gap: "5rem", alignItems: "center" }} className={BookPageStyle.bookArticle}>
                       <p dangerouslySetInnerHTML={{ __html: oneBook.description }} />
                       <img src={oneBook?.thumbnail || bookImg} alt={oneBook.title} style={{ maxWidth: "15rem", width: "100%", height: "100%", display: "block", maxHeight: "20rem", objectFit: "cover", margin: "1rem auto 0 auto" }} />
                     </div>

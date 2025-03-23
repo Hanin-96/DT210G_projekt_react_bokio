@@ -97,7 +97,7 @@ function HomePage() {
 
   return (
     <>
-      <div style={{ margin: "4rem auto 4rem auto", maxWidth: "30rem", width: "100%" }}>
+      <div style={{ margin: "4rem auto 4rem auto", maxWidth: "40rem", width: "100%" }}>
         <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
           <input
             type="text"
@@ -105,7 +105,7 @@ function HomePage() {
             placeholder="Sök efter boktitel"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            style={{ maxWidth: "30rem", width: "100%", padding: "0.8rem", borderRadius: "0.5rem", border: "none" }}
+            style={{ maxWidth: "40rem", width: "100%", padding: "0.8rem", borderRadius: "0.5rem", border: "none" }}
           />
           <button className={HomeStyle.btnSearch} onClick={() => handleSearch(search)}><Search style={{ color: "#1e1e1e" }} /></button>
         </div>
@@ -122,11 +122,11 @@ function HomePage() {
                 <article className={HomeStyle.bookArticle} key={book.id}>
                   <Link to={`/book/${book.id}`} style={bookLinks}>
                     <div>
-                      <h4 style={{ wordWrap: "break-word", overflowWrap: "break-word", whiteSpace: "normal", fontSize: "2rem" }}>{book.title}</h4>
-                      <p>{book.authors}</p>
-                      {book.pageCount > 0 && <p>{book.pageCount} sidor</p>}
+                      <h4 style={{ wordWrap: "break-word", overflowWrap: "break-word", whiteSpace: "normal", fontSize: "1.8rem" }}>{book.title}</h4>
+                      <p style={{fontSize:"1.5rem"}}>{book.authors}</p>
+                      {book.pageCount > 0 && <p style={{fontSize:"1.5rem"}}>{book.pageCount} sidor</p>}
                     </div>
-                    <img src={book.thumbnail === "" ? bookImg : book.thumbnail} alt={book.title} style={{ maxWidth: "10rem", width: "100%", height: "100%", display: "block", maxHeight: "15rem", objectFit: "cover" }} />
+                    <img src={book.thumbnail === "" ? bookImg : book.thumbnail} alt={book.title} style={{ maxWidth: "8rem", width: "100%", height: "100%", display: "block", maxHeight: "12rem", objectFit: "cover" }} />
                   </Link>
                 </article>
               ))

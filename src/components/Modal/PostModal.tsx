@@ -33,12 +33,7 @@ function PostModal({ onCloseProp, bookTitleImgProp }: { onCloseProp: (newReview:
 
             <div className={ModalStyle.pageBody}>
                 <div className={ModalStyle.textBoxStyle}>
-                    <div style={{
-                        maxHeight: "40rem",
-                        height: "100%",
-                        overflowY: "scroll",
-                        padding: "1rem"
-                    }}>
+                    <div>
                         <button className={ModalStyle.btnCancel} onClick={() => onCloseProp({ reviewText: "", rating: 1, status: "", recommend: false, userId: user?._id || "", bookId: oneBook?.id || "" })} style={{ background: "none", color: "#1e1e1e" }}><X /></button>
                         <h1 style={{ marginBottom: "1rem", fontSize: "3.2rem" }}>Skapa ny recension <span style={{ display: "block", textAlign: "center", width: "100%", margin: "0", maxWidth: "40rem", fontStyle: "italic", fontSize: "2.8rem" }}>{bookTitleImgProp.title}</span></h1>
 
@@ -78,9 +73,9 @@ function PostModal({ onCloseProp, bookTitleImgProp }: { onCloseProp: (newReview:
                             </div>
 
                             <div className={ModalStyle.formBox}>
-                                <label htmlFor="status">Status:</label>
+                                <label htmlFor="status">Status: </label>
                                 <select name="status" id="status" required
-                                    style={{ marginLeft: "0.5rem", padding: "0.5rem" }}
+                                    style={{ padding: "0.5rem" }}
                                     value={formData.status}
                                     onChange={(event) => setFormData({ ...formData, status: event.target.value })}>
                                     <option value="Läser just nu">Läser just nu</option>
