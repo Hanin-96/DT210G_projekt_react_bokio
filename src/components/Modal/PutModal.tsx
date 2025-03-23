@@ -31,7 +31,7 @@ function PutModal({ putReview, onCloseProp, bookTitleImgProp }: { putReview: Put
             bookId: formData.bookId
         });
 
-        console.log("formdata:", formData);
+        //console.log("formdata:", formData);
     }
     return (
         <>

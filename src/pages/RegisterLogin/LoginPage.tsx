@@ -18,7 +18,7 @@ function LoginPage() {
   //Kontrollera användare
   useEffect(() => {
     if (user) {
-      console.log("User updated:", user);
+      //console.log("User updated:", user);
       navigate("/mypage");
     }
   }, [user])

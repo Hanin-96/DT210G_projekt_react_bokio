@@ -33,12 +33,12 @@ function BookPage() {
 
   //Hämtar bookId från url
   const { bookId } = useParams();
-  console.log("bookId:", bookId);
+  //console.log("bookId:", bookId);
 
   useEffect(() => {
     const getAllReviews = async () => {
       try {
-        console.log("Startar laddning av recensioner...");
+        //console.log("Startar laddning av recensioner...");
         setLoadingReviews(true);
         if (bookId) {
           await getBookById(bookId);
@@ -63,7 +63,7 @@ function BookPage() {
 
       if (review.like.length > 0) {
         const userLikes = review.like.includes(user._id);
-        console.log("userLikes:", userLikes)
+        //console.log("userLikes:", userLikes)
         return userLikes;
       }
 

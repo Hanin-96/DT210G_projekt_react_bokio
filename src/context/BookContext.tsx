@@ -16,7 +16,7 @@ export const BookProvider: React.FC<BooksProviderProps> = ({ children }) => {
     //Hämta böcker
     const getBooks = async (search: string): Promise<void> => {
         try {
-            console.log("search:", search)
+            //console.log("search:", search)
             const response = await fetch(`https://dt210g-bokio-api.onrender.com/books?title=${encodeURIComponent(search)}`, {
                 method: "GET",
                 headers: {
@@ -27,7 +27,7 @@ export const BookProvider: React.FC<BooksProviderProps> = ({ children }) => {
 
             if (response.ok) {
                 const data = await response.json();
-                console.log("books data:", data)
+                //console.log("books data:", data)
                 setBooks(data);
 
             } else {
@@ -56,7 +56,7 @@ export const BookProvider: React.FC<BooksProviderProps> = ({ children }) => {
             }
 
             const data = await response.json();
-            console.log("getBookById:", data);
+            //console.log("getBookById:", data);
             //console.log("Book volumeInfo thumbnail:", data.thumbnail);
             setOneBook(data);
 

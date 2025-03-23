@@ -45,7 +45,7 @@ function RegisterPage() {
       setPassword("");
 
     } catch (error) {
-      console.log(error)
+      //console.log(error)
       setError("Serverfel, E-post/användarnamn finns redan")
     }
   }

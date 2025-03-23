@@ -28,10 +28,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
             })
 
             if (!response.ok) {
-                const data = await response.json();
-                console.log(data.message)
+                //console.log(data.message)
                 throw new Error("Registrering misslyckades");
-
             }
 
         } catch (error) {
@@ -55,11 +53,11 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
                 throw new Error("Inloggning misslyckades");
             } else {
                 const loginData = await response.json() as AuthResponse;
-                console.log("LoginData från servern:", loginData);
+                //console.log("LoginData från servern:", loginData);
 
-                console.log("LoginData user:", loginData.user);
+                //console.log("LoginData user:", loginData.user);
 
-                console.log("LoginData user:", loginData.token);
+                //console.log("LoginData user:", loginData.token);
 
                 //Sätta user state
                 setUser(loginData.user);
@@ -94,7 +92,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
         } catch (error) {
             //Sätta user state
-            console.log(error);
+            //console.log(error);
             throw new Error("Utloggning misslyckades");
         }
 

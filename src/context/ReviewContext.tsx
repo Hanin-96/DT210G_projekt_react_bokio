@@ -28,7 +28,7 @@ export const ReviewProvider: React.FC<ImagesProviderProps> = ({ children }) => {
 
             if (response.ok) {
                 const data = await response.json();
-                console.log(data)
+                //console.log(data)
 
                 //Sortera reviews efter senaste skapade
                 const latestReviews = data.reviews.sort((a: Review, b: Review) => new Date(b.created).getTime() - new Date(a.created).getTime());
@@ -70,7 +70,7 @@ export const ReviewProvider: React.FC<ImagesProviderProps> = ({ children }) => {
             }
 
             const data = await response.json();
-            console.log("Recensioner:", data);
+            //console.log("Recensioner:", data);
 
 
             //Sortera reviews efter senaste skapade
@@ -95,7 +95,7 @@ export const ReviewProvider: React.FC<ImagesProviderProps> = ({ children }) => {
         //Hämtar endast unika bookIds
         const bookIds = Array.from(new Set(reviewList.map((review: Review) => review.bookId)));
 
-        console.log("Review bookIds:", bookIds);
+        //console.log("Review bookIds:", bookIds);
         //Hämta boktitlar för varje bokId samtidigt, returnerar lista när alla anrop har gjorts
         const titlesImages = await Promise.all(bookIds.map(async (id: string) => {
             try {
@@ -115,7 +115,7 @@ export const ReviewProvider: React.FC<ImagesProviderProps> = ({ children }) => {
                     title: bookData.title,
                     thumbnail: bookData.thumbnail
                 }
-                console.log("bookData:", bookTitleImage)
+                //console.log("bookData:", bookTitleImage)
                 return bookTitleImage;
 
             } catch (error) {
@@ -130,7 +130,7 @@ export const ReviewProvider: React.FC<ImagesProviderProps> = ({ children }) => {
     const getReviewsByBook = async (bookId: string): Promise<void> => {
 
         try {
-            console.log("search:", bookId)
+            //console.log("search:", bookId)
             const response = await fetch(`https://dt210g-bokio-api.onrender.com/reviews/book/${bookId}`, {
                 method: "GET",
                 headers: {
@@ -141,7 +141,7 @@ export const ReviewProvider: React.FC<ImagesProviderProps> = ({ children }) => {
 
             if (response.ok) {
                 const data = await response.json();
-                console.log("getReviewsByBook:", data)
+                //console.log("getReviewsByBook:", data)
                 setReviews(data.reviews);
 
                 //Hämtar bookTitleLista med titel och thumbnail utifrån review lista
@@ -172,7 +172,7 @@ export const ReviewProvider: React.FC<ImagesProviderProps> = ({ children }) => {
             })
 
             if (response.ok) {
-                console.log("response:", response);
+                //console.log("response:", response);
                 await getReviewsByBook(newReview.bookId);
             }
 
@@ -224,7 +224,7 @@ export const ReviewProvider: React.FC<ImagesProviderProps> = ({ children }) => {
                 body: JSON.stringify(putReview),
                 credentials: "include"
             })
-            console.log("updateReview putReview:", putReview)
+            //console.log("updateReview putReview:", putReview)
 
 
             if (response.ok) {
@@ -254,11 +254,11 @@ export const ReviewProvider: React.FC<ImagesProviderProps> = ({ children }) => {
                 body: JSON.stringify(like),
                 credentials: "include"
             })
-            console.log("userReviewLike:", like)
+            //console.log("userReviewLike:", like)
 
 
             if (response.ok) {
-                console.log("response:", response);
+                //console.log("response:", response);
                 const data = await response.json();
                 await getReviewsByBook(data.review.bookId);
             }
