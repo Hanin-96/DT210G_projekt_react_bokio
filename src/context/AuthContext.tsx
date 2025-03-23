@@ -18,7 +18,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     //Registrering
     const register = async (credentials: RegisterCredentials) => {
         try {
-            const response = await fetch("http://localhost:3000/register", {
+            const response = await fetch("https://dt210g-bokio-api.onrender.com/register", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -42,7 +42,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
     const login = async (credentials: LoginCredentials) => {
         try {
-            const response = await fetch("http://localhost:3000/login", {
+            const response = await fetch("https://dt210g-bokio-api.onrender.com/login", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -76,7 +76,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     //Logga ut
     const logout = async () => {
         try {
-            const response = await fetch("http://localhost:3000/logout", {
+            const response = await fetch("https://dt210g-bokio-api.onrender.com/logout", {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
@@ -106,7 +106,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     const checkToken = async () => {
 
         try {
-            const response = await fetch("http://localhost:3000/userpage", {
+            const response = await fetch("https://dt210g-bokio-api.onrender.com/userpage", {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",

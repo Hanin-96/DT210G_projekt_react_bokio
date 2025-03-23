@@ -17,7 +17,7 @@ export const BookProvider: React.FC<BooksProviderProps> = ({ children }) => {
     const getBooks = async (search: string): Promise<void> => {
         try {
             console.log("search:", search)
-            const response = await fetch(`http://localhost:3000/books?title=${encodeURIComponent(search)}`, {
+            const response = await fetch(`https://dt210g-bokio-api.onrender.com/books?title=${encodeURIComponent(search)}`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json"
@@ -43,7 +43,7 @@ export const BookProvider: React.FC<BooksProviderProps> = ({ children }) => {
     //Hämta bok utifrån bookId
     const getBookById = async (bookId: string): Promise<void> => {
         try {
-            const response = await fetch(`http://localhost:3000/book/${bookId}`, {
+            const response = await fetch(`https://dt210g-bokio-api.onrender.com/book/${bookId}`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json"

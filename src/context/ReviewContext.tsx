@@ -18,7 +18,7 @@ export const ReviewProvider: React.FC<ImagesProviderProps> = ({ children }) => {
     //Hämta alla reviews publikt
     const getReviews = async (): Promise<void> => {
         try {
-            const response = await fetch("http://localhost:3000/reviews", {
+            const response = await fetch("https://dt210g-bokio-api.onrender.com/reviews", {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json"
@@ -56,7 +56,7 @@ export const ReviewProvider: React.FC<ImagesProviderProps> = ({ children }) => {
     const getReviewsById = async (userId: string): Promise<void> => {
 
         try {
-            const response = await fetch(`http://localhost:3000/reviews/${userId}`, {
+            const response = await fetch(`https://dt210g-bokio-api.onrender.com/reviews/${userId}`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json"
@@ -99,7 +99,7 @@ export const ReviewProvider: React.FC<ImagesProviderProps> = ({ children }) => {
         //Hämta boktitlar för varje bokId samtidigt, returnerar lista när alla anrop har gjorts
         const titlesImages = await Promise.all(bookIds.map(async (id: string) => {
             try {
-                const bookResponse = await fetch(`http://localhost:3000/book/${id}`, {
+                const bookResponse = await fetch(`https://dt210g-bokio-api.onrender.com/book/${id}`, {
                     method: "GET",
                     headers: {
                         "Content-Type": "application/json"
@@ -131,7 +131,7 @@ export const ReviewProvider: React.FC<ImagesProviderProps> = ({ children }) => {
 
         try {
             console.log("search:", bookId)
-            const response = await fetch(`http://localhost:3000/reviews/book/${bookId}`, {
+            const response = await fetch(`https://dt210g-bokio-api.onrender.com/reviews/book/${bookId}`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json"
@@ -162,7 +162,7 @@ export const ReviewProvider: React.FC<ImagesProviderProps> = ({ children }) => {
 
     const postReview = async (newReview: PostReview): Promise<void> => {
         try {
-            const response = await fetch("http://localhost:3000/review", {
+            const response = await fetch("https://dt210g-bokio-api.onrender.com/review", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
@@ -186,7 +186,7 @@ export const ReviewProvider: React.FC<ImagesProviderProps> = ({ children }) => {
 
     const deleteReview = async (reviewId: string, userId: string, bookId: string): Promise<void> => {
         try {
-            const response = await fetch(`http://localhost:3000/review/${reviewId}`, {
+            const response = await fetch(`https://dt210g-bokio-api.onrender.com/review/${reviewId}`, {
                 method: "DELETE",
                 headers: {
                     "Content-Type": "application/json",
@@ -216,7 +216,7 @@ export const ReviewProvider: React.FC<ImagesProviderProps> = ({ children }) => {
 
             putReview.userId = userId;
 
-            const response = await fetch(`http://localhost:3000/review/${reviewId}`, {
+            const response = await fetch(`https://dt210g-bokio-api.onrender.com/review/${reviewId}`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
@@ -245,7 +245,7 @@ export const ReviewProvider: React.FC<ImagesProviderProps> = ({ children }) => {
         try {
             const like = { like: userReviewLike };
 
-            const response = await fetch(`http://localhost:3000/review/${reviewId}/like`, {
+            const response = await fetch(`https://dt210g-bokio-api.onrender.com/review/${reviewId}/like`, {
                 method: "PATCH",
                 headers: {
                     "Content-Type": "application/json",
