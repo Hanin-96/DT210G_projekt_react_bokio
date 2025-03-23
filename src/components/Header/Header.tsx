@@ -22,7 +22,10 @@ function Header() {
             <header className={HeaderStyle.header}>
                 <div className={HeaderStyle.headerContainer}>
 
-                    <NavLink to="/"><img src={`${logotyp}`} alt="logotyp" style={{ display: "block" }} /></NavLink>
+                    <div>
+                        <NavLink to="/"><img src={`${logotyp}`} alt="logotyp" style={{ display: "block" }} /></NavLink>
+                        <p style={{color: "#1e1e1e", marginTop:"0.5rem"}}>För alla bokälskare</p>
+                    </div>
 
                     <nav className={`${HeaderStyle.navMain} ${showMenu ? HeaderStyle.navMobil : ""}`}>
                         <ul>

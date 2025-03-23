@@ -1,13 +1,13 @@
-import { Review, PutReview } from "../types/review.types";
+import { Review, PutReview } from "../../types/review.types";
 import MyPageReviewStyle from "../components/MypageReviewStyle.module.css";
-import { useEffect, useState } from "react";
-import { useAuth } from "../context/AuthContext";
-import { useReview } from "../context/ReviewContext";
-import { ChevronRight, CircleX, Heart, Pencil, Star, ThumbsDown, ThumbsUp } from "lucide-react";
+import { useState } from "react";
+import { useAuth } from "../../context/AuthContext";
+import { useReview } from "../../context/ReviewContext";
+import { ChevronRight, CircleX, Pencil, Star, ThumbsDown, ThumbsUp } from "lucide-react";
 import { Link } from "react-router-dom";
-import PutModal from "./Modal/PutModal";
-import DeleteModal from "./Modal/DeleteModal";
-import { BookTitleImage } from "../types/book.types";
+import PutModal from "../Modal/PutModal";
+import DeleteModal from "../Modal/DeleteModal";
+import { BookTitleImage } from "../../types/book.types";
 import BookPageStyle from "../pages/BookPageStyle.module.css";
 
 
@@ -19,11 +19,9 @@ function MyPageReview({ myPageReviewProp, bookTitleImgProp }: { myPageReviewProp
     //Modal state för uppdatera
     const [showPutModal, setShowPutModal] = useState(false);
 
-    const [likes, setLikes] = useState(myPageReviewProp.like);
-
     //Context
     const { user } = useAuth();
-    const { deleteReview, updateReview, likeReview } = useReview();
+    const { deleteReview, updateReview } = useReview();
 
     //loading state
     const [loading, setLoading] = useState(false);
@@ -37,26 +35,29 @@ function MyPageReview({ myPageReviewProp, bookTitleImgProp }: { myPageReviewProp
         padding: "1rem",
         borderRadius: "1rem",
         fontSize: "1.6rem",
-        boxShadow: "rgb(255, 136, 45) 5px 5px 0px 0px"
+        boxShadow: "rgb(255, 136, 45) 5px 5px 0px 0px",
+        display: "flex",
+        flexDirection: "column"
     }
     return (
         <>
 
-            <article key={myPageReviewProp._id} style={{ maxWidth: "30rem", width: "100%", opacity: loading ? 0 : 1, ...articleStyle }} className={MyPageReviewStyle.articleReviews}>
+            <article key={myPageReviewProp._id} style={{ opacity: loading ? 0 : 1, ...articleStyle }} className={MyPageReviewStyle.articleReviews}>
                 <h4>{bookTitleImgProp.title ? bookTitleImgProp.title : "Titel finns inte"}</h4>
-                <p style={{
-                    whiteSpace: "nowrap",
+                <div style={{
                     width: "100%",
-                    overflow: "hidden",
-                    textOverflow: "ellipsis"
+                    overflowY: "scroll",
+                    maxHeight: "10rem",
+                    height: "100%",
+                    marginTop: "1rem"
                 }}>
-                    {myPageReviewProp.reviewText}
-                </p>
+                    <p>{myPageReviewProp.reviewText}</p>
+                </div>
+
                 <p> {[1, 2, 3, 4, 5].map((starValue) => (
                     <Star key={starValue} fill={myPageReviewProp.rating >= starValue ? "#FF882D" : "none"} stroke="#1e1e1e" />
                 ))}</p>
                 <p style={{ display: "flex", alignItems: "center" }}>Rekommendation: {myPageReviewProp.recommend ? <ThumbsUp /> : <ThumbsDown />}</p>
-
 
                 <div style={{ marginTop: "1.5rem" }}>
 
@@ -91,7 +92,7 @@ function MyPageReview({ myPageReviewProp, bookTitleImgProp }: { myPageReviewProp
                         }
                     } />}
                 </div>
-            </article>
+            </article >
 
         </>
     )

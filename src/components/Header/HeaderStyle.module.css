@@ -45,6 +45,8 @@
 
 .hamburger {
     display: none;
+    background-color: #FF882D;
+    border-radius: 100%;
 }
 
 @media all and (max-width: 700px) {

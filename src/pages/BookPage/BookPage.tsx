@@ -1,15 +1,15 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom"
-import { useReview } from "../context/ReviewContext";
-import { PostReview, PutReview, Review } from "../types/review.types";
+import { useReview } from "../../context/ReviewContext";
+import { PostReview, PutReview, Review } from "../../types/review.types";
 import { CircleX, Heart, Pencil, SquarePen, Star, ThumbsDown, ThumbsUp } from "lucide-react";
 import bookImg from "../assets/bookImg.png";
 import BookPageStyle from "../pages/BookPageStyle.module.css";
-import { useAuth } from "../context/AuthContext";
-import PostModal from "../components/Modal/PostModal";
-import PutModal from "../components/Modal/PutModal";
-import DeleteModal from "../components/Modal/DeleteModal";
-import { useBook } from "../context/BookContext";
+import { useAuth } from "../../context/AuthContext";
+import PostModal from "../../components/Modal/PostModal";
+import PutModal from "../../components/Modal/PutModal";
+import DeleteModal from "../../components/Modal/DeleteModal";
+import { useBook } from "../../context/BookContext";
 
 
 function BookPage() {
@@ -61,7 +61,7 @@ function BookPage() {
   const checkIfUserLike = (review: Review): boolean => {
     if (user && review) {
 
-      if(review.like.length > 0) {
+      if (review.like.length > 0) {
         const userLikes = review.like.includes(user._id);
         console.log("userLikes:", userLikes)
         return userLikes;
@@ -75,7 +75,16 @@ function BookPage() {
 
 
   const reviewStyle: object = {
-    maxWidth: "40rem", width: "100%", marginBottom: "2rem", backgroundColor: "#F8F5F2", color: "#1e1e1e", padding: "1rem", borderRadius: "1rem", fontSize: "1.6rem", boxShadow: "5px 5px 0px 0px #FF882D"
+    maxWidth: "40rem",
+    width: "100%",
+    marginBottom: "2rem",
+    backgroundColor: "#F8F5F2",
+    color: "#1e1e1e",
+    padding: "1rem",
+    borderRadius: "1rem",
+    fontSize: "1.6rem",
+    boxShadow: "5px 5px 0px 0px #FF882D",
+    lineHeight: "200%"
   }
   return (
     <>
@@ -91,7 +100,9 @@ function BookPage() {
               oneBook ? (
                 <div style={{ margin: "0 auto" }}>
                   <h1>{oneBook.title}</h1>
-                  <p style={{ margin: "1rem 0 1rem 0", fontStyle: "italic" }}>{oneBook.authors}</p>
+                  <p style={{ margin: "1rem 0 1rem 0", fontStyle: "italic" }}>{Array.isArray(oneBook?.authors) && oneBook.authors.length > 0
+                    ? oneBook.authors.join(", ")
+                    : "Okänd författare"}</p>
 
                   <article style={{ maxWidth: "60rem", width: "100%" }}>
                     <div style={{ display: "flex", gap: "5rem", alignItems: "center" }}>
@@ -115,10 +126,10 @@ function BookPage() {
                 (
                   <div>
                     <button type="button" style={{ display: "flex", alignItems: "center", justifyContent: "center" }} className={BookPageStyle.btnReview} onClick={() => setShowModal(true)}>Skriv recension <SquarePen style={{ marginLeft: "0.5rem" }} /></button>
-                    {showModal && <PostModal onCloseProp={async (newReview: PostReview) => {
+                    {showModal && <PostModal bookTitleImgProp={bookTitleImageList?.find(bookTitleImage => bookTitleImage.bookId === bookId) || { bookId: '', title: '', thumbnail: '' }} onCloseProp={async (newReview: PostReview) => {
                       if (newReview && newReview.bookId != "" && user?._id) {
 
-                        await postReview(newReview);
+                        postReview(newReview);
                       }
 
                       setShowModal(false);
@@ -126,7 +137,7 @@ function BookPage() {
                   </div>
                 ) :
 
-                <div></div>
+                null
 
               :
               <Link to="/login" style={{ textDecoration: "none" }}>
@@ -146,22 +157,26 @@ function BookPage() {
                   reviews.map((review: Review) => (
                     <article key={review._id} style={reviewStyle}>
                       <h4>{review.userId.username}</h4>
-                      <p>{review.reviewText}</p>
-                      <div style={{ marginTop: "10px", display: "flex", gap: "5px" }}>
+                      <div style={{ height: "100%", maxHeight: "20rem", overflowY: "scroll" }}>
+                        <p>{review.reviewText}</p>
+                      </div>
+                      <div style={{ display: "flex", gap: "5px" }}>
                         {[1, 2, 3, 4, 5].map((starValue) => (
                           <Star key={starValue} fill={review.rating >= starValue ? "#FF882D" : "none"} stroke="#1e1e1e" />
                         ))}
                       </div>
                       <p style={{ display: "flex", alignItems: "center" }}>Rekommendation: {review.recommend ? <ThumbsUp /> : <ThumbsDown />}</p>
-                      <p>Likes: {review.like.length} <Heart /></p>
                       {user && user._id ? (
                         <div>
-                          <button onClick={() => likeReview(!checkIfUserLike(review), review._id)}>Likes: {review.like.length} <Heart fill={checkIfUserLike(review) ? "#FF882D" : "none"}/></button>
+                          <span style={{ margin: "0" }}>Likes: </span>
+
+                          <button style={{ display: "flex", flexDirection: "row", alignItems: "center", border: "none", boxShadow: "none", backgroundColor: "unset", cursor: "pointer" }} onClick={() => likeReview(!checkIfUserLike(review), review._id)}>{review.like.length > 0 ? review.like.length : ""} <Heart fill={checkIfUserLike(review) ? "#FF882D" : "none"} /></button>
                         </div>
                       ) : (
                         <p>Likes: {review.like.length || 0} <Heart /></p>
                       )
                       }
+                      <p style={{ fontSize: "1.4rem" }}>{new Date(review.created).toLocaleString()}</p>
 
                       {
                         review.userId._id == user?._id &&

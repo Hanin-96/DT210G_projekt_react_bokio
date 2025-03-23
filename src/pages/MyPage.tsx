@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { useReview } from "../context/ReviewContext";
 import { Review } from "../types/review.types";
-import MyPageReview from "../components/MyPageReview";
+import MyPageReview from "../components/MyPageReview/MyPageReview";
 
 
 function MyPage() {

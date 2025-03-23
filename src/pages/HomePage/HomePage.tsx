@@ -2,14 +2,13 @@ import { useEffect, useState } from "react"
 import { Search } from "lucide-react";
 import HomeStyle from "../pages/HomeStyle.module.css";
 import ModalStyle from "../components/Modal/ModalStyle.module.css";
-import { Book } from "../types/book.types";
-import { Review } from "../types/review.types";
+import { Book } from "../../types/book.types";
+import { Review } from "../../types/review.types";
 import bookImg from "../assets/bookImg.png";
-import bookImgLarge from "../assets/bookImgLarge.png";
 import { Link } from 'react-router-dom';
-import { useBook } from "../context/BookContext";
-import { useReview } from "../context/ReviewContext";
-import HomePageReviews from "../components/HomePageReviews";
+import { useBook } from "../../context/BookContext";
+import { useReview } from "../../context/ReviewContext";
+import HomePageReviews from "../../components/HomePageReviews";
 
 function HomePage() {
 
@@ -37,9 +36,9 @@ function HomePage() {
     justifyContent: "flex-start",
     maxWidth: "100rem",
     width: "100%",
-    gap: "6rem",
+    gap: "2rem",
     flexWrap: "wrap",
-    margin: "0 auto"
+    margin: "0 auto 10rem auto",
   }
 
   const bookLinks: object = {
@@ -48,8 +47,11 @@ function HomePage() {
     flexDirection: "column",
     maxHeight: "50rem",
     height: "100%",
-    color: "white",
-    textDecoration: "none"
+    color: "#1e1e1e",
+    textDecoration: "none",
+    backgroundColor: "rgb(248, 245, 242)",
+    padding: "1rem",
+    borderRadius: "1rem"
   }
 
   useEffect(() => {
@@ -61,11 +63,11 @@ function HomePage() {
     setLoadingSpinner(false);
     const getLatestReviews = async () => {
       try {
-
+        setLoadingSpinner(true);
+        setLoading(true);
         await getReviews();
-        reviews?.sort((a, b) => new Date(a.created).getTime() - new Date(b.created).getTime());
-
         setLoading(false);
+        setLoadingSpinner(false);
 
       } catch (error) {
         setLoadingSpinner(false);
@@ -111,22 +113,13 @@ function HomePage() {
       {loadingSpinner && <div className={ModalStyle.loadingSpinnerHome}></div>}
 
 
-      {
-        /*
-        !searchQuery &&
-        <div style={{ textAlign: "center", maxWidth: "20rem", width: "100%", margin: "10rem auto 20rem auto" }}>
-          <img src={bookImgLarge} className={HomeStyle.bookHomepage} alt="Bokio" style={{ maxWidth: "20rem", width: "100%", textAlign: "center" }} />
-        </div>
-        */
-      }
-
       <div style={bookArticle}>
         {
           books && books.length > 0 ? (
             books.map((book: Book) => (
               <article style={{ maxWidth: "15rem", width: "100%" }} key={book.id}>
                 <Link to={`/book/${book.id}`} style={bookLinks}>
-                  <h4 style={{ wordWrap: "break-word", overflowWrap: "break-word", whiteSpace: "normal" }}>{book.title}</h4>
+                  <h4 style={{ wordWrap: "break-word", overflowWrap: "break-word", whiteSpace: "normal", fontSize: "2rem" }}>{book.title}</h4>
                   <p>{book.authors}</p>
                   <img src={book.thumbnail === "" ? bookImg : book.thumbnail} alt={book.title} style={{ maxWidth: "15rem", width: "100%", height: "100%", display: "block", maxHeight: "20rem", objectFit: "cover" }} />
                 </Link>
@@ -136,11 +129,11 @@ function HomePage() {
             <p style={{ textAlign: "center", width: "100%" }}>{error}</p>
         }
       </div>
-      <div style={{ maxWidth: "100rem", width: "100%", margin: "0 auto" }}>
+      <div style={{ maxWidth: "100rem", width: "100%", margin: "0 auto 10rem auto" }}>
         <h2 style={{ marginBottom: "2rem" }}>Senaste recensioner</h2>
 
 
-        {!loading && <div style={{ display: "flex", justifyContent: "flex-start", flexWrap: "wrap", gap:"2rem"}}>
+        {!loading && <div style={{ display: "flex", justifyContent: "center", flexWrap: "wrap", gap: "2rem" }}>
 
           {
             reviews && reviews.length > 0 ?

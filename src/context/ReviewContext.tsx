@@ -1,5 +1,5 @@
 import { createContext, useState, useContext, ReactNode } from "react";
-import { Like, PostReview, PutReview, Review } from "../types/review.types";
+import { PostReview, PutReview, Review } from "../types/review.types";
 import { ReviewContextType } from "../types/review.types";
 import { BookTitleImage } from "../types/book.types";
 
@@ -29,7 +29,11 @@ export const ReviewProvider: React.FC<ImagesProviderProps> = ({ children }) => {
             if (response.ok) {
                 const data = await response.json();
                 console.log(data)
-                setReviews(data.reviews);
+
+                //Sortera reviews efter senaste skapade
+                const latestReviews = data.reviews.sort((a: Review, b: Review) => new Date(b.created).getTime() - new Date(a.created).getTime());
+
+                setReviews(latestReviews);
 
 
                 //Hämtar bookTitleLista med titel och thumbnail utifrån review lista
@@ -67,7 +71,12 @@ export const ReviewProvider: React.FC<ImagesProviderProps> = ({ children }) => {
 
             const data = await response.json();
             console.log("Recensioner:", data);
-            setReviews(data.reviewsByUserId);
+
+
+            //Sortera reviews efter senaste skapade
+            const latestReviews = data.reviewsByUserId.sort((a: Review, b: Review) => new Date(b.created).getTime() - new Date(a.created).getTime());
+
+            setReviews(latestReviews);
 
             //Hämtar bookTitleLista med titel och thumbnail utifrån review lista
             const titleImageList = await getBookTitleImageList(data.reviewsByUserId);

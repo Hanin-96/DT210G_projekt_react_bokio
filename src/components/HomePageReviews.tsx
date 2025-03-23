@@ -3,13 +3,10 @@ import { Link } from "react-router-dom";
 import { Review } from "../types/review.types";
 import { BookTitleImage } from "../types/book.types";
 import BookPageStyle from "../pages/BookPageStyle.module.css";
-import { useState } from "react";
 
 
 function HomeReviews({ homePageReviewProp, bookTitleImgProp }: { homePageReviewProp: Review, bookTitleImgProp: BookTitleImage }) {
 
-  //loading state
-  const [loading, setLoading] = useState(false);
 
   const articleReview: object = {
     maxWidth: "22rem",
@@ -21,14 +18,24 @@ function HomeReviews({ homePageReviewProp, bookTitleImgProp }: { homePageReviewP
     borderRadius: "1rem",
     fontSize: "1.6rem",
     boxShadow: "5px 5px 0px 0px #FF882D",
-    maxHeight: "30rem",
-    height: "100%"
+    height: "30rem",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "space-between"
   }
   return (
     <>
-      <article key={homePageReviewProp._id} style={{ ...articleReview, opacity: loading ? 0 : 1 }}>
+      <article key={homePageReviewProp._id} style={{ ...articleReview }}>
         <h4>{bookTitleImgProp.title ? bookTitleImgProp.title : "Titel finns inte"}</h4>
-        <p style={{ maxHeight: "10rem", height: "100%", overflow: "hidden" }}>{homePageReviewProp.reviewText}</p>
+
+        <div style={{
+          width: "100%",
+          overflowY: "scroll",
+          maxHeight: "8rem",
+          height: "100%"
+        }}>
+          <p>{homePageReviewProp.reviewText}</p>
+        </div>
         <p> {[1, 2, 3, 4, 5].map((starValue) => (
           <Star key={starValue} fill={homePageReviewProp.rating >= starValue ? "#FF882D" : "none"} stroke="#1e1e1e" />
         ))}</p>

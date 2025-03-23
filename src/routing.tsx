@@ -1,12 +1,12 @@
 import { createBrowserRouter } from "react-router-dom";
 import Layout from "./components/Layout";
-import HomePage from "./pages/HomePage";
+import HomePage from "./pages/HomePage/HomePage";
 import RegisterPage from "./pages/RegisterLogin/RegisterPage";
 import LoginPage from "./pages/RegisterLogin/LoginPage";
 import MyPage from "./pages/MyPage";
 import ProtectedRoute from "./context/ProtectedRoute";
 import { ReviewProvider } from "./context/ReviewContext";
-import BookPage from "./pages/BookPage";
+import BookPage from "./pages/BookPage/BookPage";
 import { BookProvider } from "./context/BookContext";
 
 

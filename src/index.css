@@ -20,6 +20,10 @@ body {
     margin: 0;
 }
 
+textarea, input {
+    font-family: "Montserrat", serif;
+}
+
 main {
     width: 100%;
     margin: 0 auto;

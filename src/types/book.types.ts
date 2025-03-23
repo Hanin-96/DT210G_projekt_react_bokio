@@ -3,7 +3,7 @@
 export interface Book {
     id: string,
     title: string,
-    authors: string,
+    authors: string[],
     description: string,
     thumbnail: string
 }
@@ -17,7 +17,7 @@ export interface BookTitleImage {
 export interface OneBook {
     id: string,
     title: string,
-    authors: string,
+    authors: string[],
     description: string,
     thumbnail: string
 }
