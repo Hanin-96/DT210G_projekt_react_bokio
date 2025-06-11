@@ -110,7 +110,6 @@ function HomePage() {
           <button className={HomeStyle.btnSearch} onClick={() => handleSearch(search)}><Search style={{ color: "#1e1e1e" }} /></button>
         </div>
       </div>
-
       {loadingSpinner && <div className={ModalStyle.loadingSpinnerHome}></div>}
 
 
@@ -123,8 +122,8 @@ function HomePage() {
                   <Link to={`/book/${book.id}`} style={bookLinks}>
                     <div>
                       <h4 style={{ wordWrap: "break-word", overflowWrap: "break-word", whiteSpace: "normal", fontSize: "1.8rem" }}>{book.title}</h4>
-                      <p style={{fontSize:"1.5rem"}}>{book.authors}</p>
-                      {book.pageCount > 0 && <p style={{fontSize:"1.5rem"}}>{book.pageCount} sidor</p>}
+                      <p style={{ fontSize: "1.5rem" }}>{book.authors}</p>
+                      {book.pageCount > 0 && <p style={{ fontSize: "1.5rem" }}>{book.pageCount} sidor</p>}
                     </div>
                     <img src={book.thumbnail === "" ? bookImg : book.thumbnail} alt={book.title} style={{ maxWidth: "8rem", width: "100%", height: "100%", display: "block", maxHeight: "12rem", objectFit: "cover" }} />
                   </Link>
@@ -136,8 +135,7 @@ function HomePage() {
         </div>
       </div>
       <div style={{ maxWidth: "100rem", width: "100%", margin: "0 auto 10rem auto" }}>
-        <h2 style={{ marginBottom: "2rem", textAlign: "center" }}>Senaste recensioner</h2>
-
+        {loading && !reviews && <h2 style={{ marginBottom: "2rem", textAlign: "center" }}>Senaste recensioner</h2>}
 
         {!loading && <div style={{ display: "flex", justifyContent: "center", flexWrap: "wrap", gap: "2rem" }}>
 
