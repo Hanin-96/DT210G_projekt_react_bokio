@@ -135,7 +135,7 @@ function HomePage() {
         </div>
       </div>
       <div style={{ maxWidth: "100rem", width: "100%", margin: "0 auto 10rem auto" }}>
-        {loading && !reviews && <h2 style={{ marginBottom: "2rem", textAlign: "center" }}>Senaste recensioner</h2>}
+        {!loading && reviews && <h2 style={{ marginBottom: "2rem", textAlign: "center" }}>Senaste recensioner</h2>}
 
         {!loading && <div style={{ display: "flex", justifyContent: "center", flexWrap: "wrap", gap: "2rem" }}>
 
