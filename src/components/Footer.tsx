@@ -8,7 +8,8 @@ function Footer() {
     lineHeight: "180%",
     fontSize: "1.4rem",
     textAlign: "center",
-    color: "white"
+    color: "white",
+    marginTop: "20rem"
 
   }
   return (

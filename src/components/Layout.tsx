@@ -5,12 +5,12 @@ import Footer from "./Footer";
 function layout() {
   return (
     <>
-     <Header />
-      <main>
+      <Header />
+      <main style={{ minHeight: "80vh" }}>
         <Outlet />
       </main>
       <Footer />
-     
+
     </>
   )
 }
