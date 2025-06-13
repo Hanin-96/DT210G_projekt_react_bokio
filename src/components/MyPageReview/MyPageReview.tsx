@@ -45,8 +45,8 @@ function MyPageReview({ myPageReviewProp, bookTitleImgProp }: { myPageReviewProp
             <article key={myPageReviewProp._id} style={{ opacity: loading ? 0 : 1, ...articleStyle }} className={MyPageReviewStyle.articleReviews}>
                 <h4 style={{ marginBottom: "2rem" }}>{bookTitleImgProp.title ? bookTitleImgProp.title : "Titel finns inte"}</h4>
                 <div style={{ textAlign: "center" }}>
-                            <img src={bookTitleImgProp.thumbnail} alt={bookTitleImgProp.title} style={{ maxWidth: "10rem", width: "100%" }} />
-                        </div>
+                    <img src={bookTitleImgProp.thumbnail} alt={bookTitleImgProp.title} style={{ maxWidth: "10rem", width: "100%" }} />
+                </div>
                 <div style={{
                     width: "100%",
                     overflowY: "scroll",

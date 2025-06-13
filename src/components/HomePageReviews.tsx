@@ -18,7 +18,7 @@ function HomeReviews({ homePageReviewProp, bookTitleImgProp }: { homePageReviewP
     borderRadius: "1rem",
     fontSize: "1.6rem",
     boxShadow: "5px 5px 0px 0px #FF882D",
-    height: "30rem",
+    height: "45rem",
     display: "flex",
     flexDirection: "column",
     justifyContent: "space-between"
@@ -26,7 +26,10 @@ function HomeReviews({ homePageReviewProp, bookTitleImgProp }: { homePageReviewP
   return (
     <>
       <article key={homePageReviewProp._id} style={{ ...articleReview }}>
-        <h4>{bookTitleImgProp.title ? bookTitleImgProp.title : "Titel finns inte"}</h4>
+        <h4 style={{height: "100%", maxHeight:"2.5rem", minHeight: "2.5rem", marginBottom:"2rem"}}>{bookTitleImgProp.title ? bookTitleImgProp.title : "Titel finns inte"}</h4>
+        <div style={{ textAlign: "center", marginTop: "1rem", marginBottom: "1rem" }}>
+          <img src={bookTitleImgProp.thumbnail} alt={bookTitleImgProp.title} style={{ maxWidth: "10rem", width: "100%" }} />
+        </div>
 
         <div style={{
           width: "100%",
@@ -40,7 +43,7 @@ function HomeReviews({ homePageReviewProp, bookTitleImgProp }: { homePageReviewP
           <Star key={starValue} fill={homePageReviewProp.rating >= starValue ? "#FF882D" : "none"} stroke="#1e1e1e" />
         ))}</p>
         <p style={{ display: "flex", alignItems: "center" }}>Rekommendation: {homePageReviewProp.recommend ? <ThumbsUp /> : <ThumbsDown />}</p>
-        <p  style={{ display: "flex", flexDirection: "row", alignItems: "center", gap:"0.5rem"}}>{homePageReviewProp.like.length || 0} <Heart /></p>
+        <p style={{ display: "flex", flexDirection: "row", alignItems: "center", gap: "0.5rem" }}>{homePageReviewProp.like.length || 0} <Heart /></p>
 
         <Link to={`/book/${homePageReviewProp.bookId}`} className={BookPageStyle.btnBookLink}>Se bok <ChevronRight className={BookPageStyle.chevron} /></Link>
       </article>
