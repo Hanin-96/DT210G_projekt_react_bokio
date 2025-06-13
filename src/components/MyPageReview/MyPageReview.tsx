@@ -52,7 +52,8 @@ function MyPageReview({ myPageReviewProp, bookTitleImgProp }: { myPageReviewProp
                     overflowY: "scroll",
                     maxHeight: "10rem",
                     height: "100%",
-                    marginTop: "1rem"
+                    marginTop: "2rem",
+                    marginBottom: "1rem"
                 }}>
                     <p>{myPageReviewProp.reviewText}</p>
                 </div>
