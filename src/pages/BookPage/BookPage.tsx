@@ -135,14 +135,16 @@ function BookPage() {
                       setShowModal(false);
                     }} />}
                   </div>
-                ) :
+                )
+                : null
+            : null
+          }
 
-                null
+          {isLoaded && !user && 
 
-              :
-              <Link to="/login" style={{ textDecoration: "none" }}>
-                <button type="button" style={{ display: "flex", alignItems: "center", justifyContent: "center" }} className={BookPageStyle.btnReview}>Skriv recension <SquarePen style={{ marginLeft: "0.5rem" }} /></button>
-              </Link>
+            <Link to="/login" style={{ textDecoration: "none" }}>
+              <button type="button" style={{ display: "flex", alignItems: "center", justifyContent: "center" }} className={BookPageStyle.btnReview}>Skriv recension <SquarePen style={{ marginLeft: "0.5rem" }} /></button>
+            </Link>
           }
 
 
