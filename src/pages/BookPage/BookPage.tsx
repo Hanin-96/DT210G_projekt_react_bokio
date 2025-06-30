@@ -173,7 +173,7 @@ function BookPage() {
                           <button style={{ display: "flex", flexDirection: "row", alignItems: "center", border: "none", boxShadow: "none", backgroundColor: "unset", cursor: "pointer" }} onClick={() => likeReview(!checkIfUserLike(review), review._id)}>{review.like.length > 0 ? review.like.length : ""} <Heart fill={checkIfUserLike(review) ? "#FF882D" : "none"} /></button>
                         </div>
                       ) : (
-                        <p>{review.like.length || 0} <Heart /></p>
+                        <p style={{display: "flex", alignItems: "center", gap: "0.5rem"}}>{review.like.length || 0} <Heart /></p>
                       )
                       }
                       <p style={{ fontSize: "1.4rem" }}>{new Date(review.created).toLocaleString()}</p>
